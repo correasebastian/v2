@@ -3,7 +3,8 @@
 
 angular.module('starter', ['ionic', 
   'app.core',  
-  'app.placas'])
+  'app.placas',
+  'app.fotos'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -58,8 +59,8 @@ angular.module('starter', ['ionic',
       url: '/chats',
       views: {
         'tab-chats': {
-          templateUrl: 'templates/tab-chats.html',
-          controller: 'ChatsCtrl'
+          templateUrl: 'js/fotos/tab-fotos.html',
+          controller: 'Fotos as FCtrl'
         }
       }
     })
