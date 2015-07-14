@@ -1,0 +1,14 @@
+{
+  "name": "HelloIonic",
+  "private": "true",
+  "devDependencies": {
+    "ionic": "driftyco/ionic-bower#1.0.1"
+  },
+  "dependencies": {
+    "moment": "~2.10.3",
+    "toastr": "~2.1.1",
+    "font-awesome": "~4.3.0",
+    "angular-messages": "~1.4.2",
+    "jquery": "~2.1.4"
+  }
+}
