@@ -14,13 +14,13 @@
         };
         return service;
 
-        function emulate(msg,delay) {
+        function emulate(msg,data,delay) {
 
             var deferred= $q.defer();
 
             $timeout(function(){
                 logger.log(msg, delay);
-                deferred.resolve(msg); 
+                deferred.resolve(data); 
             }, delay);            
 
             return deferred.promise;

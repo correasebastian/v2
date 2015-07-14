@@ -23,7 +23,7 @@
         activate();
 
         function activate() {
-            var promises = [getAvengerCount(), getAvengersCast()];
+            var promises = [getAvengerCount(), getAvengersCast(), getPlacas()];
 //            Using a resolver on all routes or placaService.ready in every controller
 //            return placaService.ready(promises).then(function(){
             return $q.all(promises).then(function(res) {
@@ -42,6 +42,13 @@
             return placaService.getAvengersCast().then(function(data) {
                 vm.avengers = data;
                 return vm.avengers;
+            });
+        }
+
+        function getPlacas() {
+            return placaService.getPlacas().then(function(data) {
+                vm.placas = data;
+                return vm.placas;
             });
         }
     }

@@ -17,7 +17,8 @@
 
 		var placaFactory= {
 			getAvengerCount:getAvengerCount	,
-			getAvengersCast : getAvengersCast	
+			getAvengersCast : getAvengersCast,
+			getPlacas:getPlacas	
 		}
 		
 		//return factory object
@@ -26,11 +27,16 @@
 		//implementacion
 
 		function getAvengerCount () {
-			return promise.emulate('getAvengerCount',2000);			
+			return promise.emulate('getAvengerCount','',2000);			
 		}
 
 		function getAvengersCast () {
-			return promise.emulate('getAvengersCast',3000);			
+			return promise.emulate('getAvengersCast','',3000);			
+		}
+
+		function getPlacas () {
+			var data=[{placa:'abc'}, {placa:'def'}]
+			return promise.emulate('getAvengersCast',data,3000);			
 		}
 
 
