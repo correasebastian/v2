@@ -35,7 +35,10 @@
 		}
 
 		function getFotos () {
-			var data=[{placa:'abc'}, {placa:'def'}]
+			var data=[
+					{placa:'abc',src:'http://190.145.39.138/Img/fotos/2015/julio/14/WDX857/1436902247425.jpg'},
+					{placa:'def', src:'http://190.145.39.138/Img/fotos/2015/julio/14/WDX857/1436902537477.jpg'}
+					]
 			return promise.emulate('getAvengersCast',data,3000);			
 		}
 

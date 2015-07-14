@@ -1,6 +1,23 @@
 <ion-view view-title="{{FCtrl.title}}">
   <ion-content>
 <span>{{FCtrl}}</span>
+<div class="list card" ng-repeat="foto in FCtrl.fotos">
 
+  <div class="item item-avatar">
+    <img ng-src="{{foto.src}}">
+    <h2>Pretty Hate Machine</h2>
+    <p>Nine Inch Nails</p>
+  </div>
+
+  <div class="item item-image">
+    <img ng-src="{{foto.src}}">
+  </div>
+
+  <a class="item item-icon-left assertive" href="#">
+    <i class="icon ion-music-note"></i>
+    Start listening
+  </a>
+
+</div>
 </ion-content>
 </ion-view>
