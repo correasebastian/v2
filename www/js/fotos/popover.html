@@ -1,0 +1,25 @@
+ <ion-popover-view>
+        <ion-content>
+          <div class="list">
+          
+            <a class="item" >
+             <b> placa: {{FCtrl.data.placa || ''}} </b>
+            </a>
+            <a class="item" ng-click="FCtrl.sistemasPopup()" ng-class="FCtrl.data.sistemasDictamen.class">
+              Sistemas: {{FCtrl.data.sistemasDictamen.label || ''}} 
+            </a>
+            <a class="item" ng-click="FCtrl.matriculaPopup()" ng-class="{assertive: sistemasDictamen !=null}">
+              Matricula: {{FCtrl.data.matriculasDictamen.label || ''}}
+            </a>
+            <a class="item" ng-click="baseDatosPopup()">
+             Base de Datos
+            </a>
+            <a class="item" href="http://ionicframework.com/submit-issue/" target="_blank">
+              Submit an Issue
+            </a>
+            <a class="item" href="https://github.com/driftyco/ionic" target="_blank">
+              Github Repo
+            </a>
+          </div>
+        </ion-content>
+      </ion-popover-view>

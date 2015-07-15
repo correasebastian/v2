@@ -3,9 +3,14 @@
 <span>{{PCtrl}}</span>
 
 <ion-list>
-  <ion-item ng-repeat="placa in PCtrl.placas">
+  <ion-item class="item-icon-right" ng-repeat="placa in PCtrl.placas" href="#/tab/chats/{{placa.placa}}">
    {{placa.placa}}
+      <i class="icon ion-chevron-right icon-accessory"></i>
   </ion-item>
 </ion-list>
+
+<button class="button button-block button-dark" ng-click="identifyUser()">
+  Identify a user
+</button>
 </ion-content>
 </ion-view>

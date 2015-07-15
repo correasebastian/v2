@@ -5,9 +5,9 @@
         .module('app.placas')
         .controller('Placas', Placas);
 
-    Placas.$inject = ['$q', 'placaService', 'logger'];
+    Placas.$inject = ['$q', 'placaService', 'logger', 'identifyService'];
 
-    function Placas($q, placaService, logger) {
+    function Placas($q, placaService, logger, identifyService) {
 
         /*jshint validthis: true */
         var vm = this;
@@ -20,36 +20,44 @@
         vm.avengers = [];
         vm.title = 'Placas';
 
-        activate();
+        // $ionicPlatform.ready(function() {
 
-        function activate() {
-            var promises = [getAvengerCount(), getAvengersCast(), getPlacas()];
-//            Using a resolver on all routes or placaService.ready in every controller
-//            return placaService.ready(promises).then(function(){
-            return $q.all(promises).then(function(res) {
-                logger.info('Activated Placas View', res);
-            });
-        }
+         activate();
 
-        function getAvengerCount() {
-            return placaService.getAvengerCount().then(function(data) {
-                vm.avengerCount = data;
-                return vm.avengerCount;
-            });
-        }
+                function activate() {
+                    var promises = [getAvengerCount(), getAvengersCast(), getPlacas(),identifyUser()];
+        //            Using a resolver on all routes or placaService.ready in every controller
+        //            return placaService.ready(promises).then(function(){
+                    return $q.all(promises).then(function(res) {
+                        logger.info('Activated Placas View', res);
+                    });
+                }
 
-        function getAvengersCast() {
-            return placaService.getAvengersCast().then(function(data) {
-                vm.avengers = data;
-                return vm.avengers;
-            });
-        }
+                function getAvengerCount() {
+                    return placaService.getAvengerCount().then(function(data) {
+                        vm.avengerCount = data;
+                        return vm.avengerCount;
+                    });
+                }
 
-        function getPlacas() {
-            return placaService.getPlacas().then(function(data) {
-                vm.placas = data;
-                return vm.placas;
-            });
-        }
+                function getAvengersCast() {
+                    return placaService.getAvengersCast().then(function(data) {
+                        vm.avengers = data;
+                        return vm.avengers;
+                    });
+                }
+
+                function getPlacas() {
+                    return placaService.getPlacas().then(function(data) {
+                        vm.placas = data;
+                        return vm.placas;
+                    });
+                }
+
+                function identifyUser() {
+                    return identifyService.identifyUser();
+                }
+
+           // })     
     }
 })();

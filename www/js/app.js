@@ -1,10 +1,28 @@
 // Ionic Starter App
 
-
-angular.module('starter', ['ionic', 
+var v=null;
+angular.module('starter', ['ionic', 'ionic.ion.headerShrink', 
   'app.core',  
   'app.placas',
-  'app.fotos'])
+  'app.fotos',
+  'ngCordova',
+  'ionic.service.core',
+  'ionic.service.push'])
+
+.config(['$ionicAppProvider', function($ionicAppProvider) {
+  // Identify app
+  $ionicAppProvider.identify({
+    // The App ID (from apps.ionic.io) for the server
+    app_id: '6d5a8318',
+    // The public API key all services will use for this app
+    api_key: '16ee09dd4098ccebc97e6c4b35083ee3aa8ebb1f5a0180a5',
+    // Set the app to use development pushes
+    // dev_push: true
+    // ,
+    // The GCM project number
+    gcm_id: '237781718403'
+  });
+}])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -57,19 +75,19 @@ angular.module('starter', ['ionic',
 
   .state('tab.chats', {
       url: '/chats',
-      views: {
+     views: {
+      'tab-chats': {
+        templateUrl: 'js/placas/tab-placas.html',
+        controller: 'Placas as PCtrl'
+      }
+    }
+    })
+    .state('tab.chat-detail', {
+      url: '/chats/:placa',
+       views: {
         'tab-chats': {
           templateUrl: 'js/fotos/tab-fotos.html',
           controller: 'Fotos as FCtrl'
-        }
-      }
-    })
-    .state('tab.chat-detail', {
-      url: '/chats/:chatId',
-      views: {
-        'tab-chats': {
-          templateUrl: 'templates/chat-detail.html',
-          controller: 'ChatDetailCtrl'
         }
       }
     })

@@ -1,6 +1,13 @@
 <ion-view view-title="{{FCtrl.title}}">
-  <ion-content>
-<span>{{FCtrl}}</span>
+ <ion-nav-buttons side="secondary">
+      <button class="button button-icon icon ion-drag" ng-click="FCtrl.openPopover($event)">
+        
+      </button>
+    </ion-nav-buttons>
+    <!--header-shrink scroll-event-interval="5" -->
+  <ion-content  >
+  <div style="height: 50px"></div>
+<!-- <span>{{FCtrl}}</span> -->
 <div class="list card" ng-repeat="foto in FCtrl.fotos">
 
   <div class="item item-avatar">
