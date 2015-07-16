@@ -8,7 +8,8 @@ var v=null;
   'app.core',  
   'app.placas',
   'app.fotos',
-  'ngCordova',  
+  'ngCordova', 
+  'app.consulta', 
   'ionic.service.core',
   'ionic.service.push'])
 
