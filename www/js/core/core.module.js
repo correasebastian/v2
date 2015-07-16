@@ -9,7 +9,7 @@
         /*
          * Our reusable cross app code modules
          */
-        'blocks.exception', 'blocks.logger','blocks.promise'
+        'blocks.exception', 'blocks.logger','blocks.promise', 'blocks.sqlite','blocks.zumero'
         // , 'blocks.router'
     ]);
 })();

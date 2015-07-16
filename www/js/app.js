@@ -1,13 +1,14 @@
 // Ionic Starter App
 
 var v=null;
-var z =null;
-angular.module('starter', ['ionic', 'ionic.ion.headerShrink', 
+
+
+
+   angular.module('starter', ['ionic', 'ionic.ion.headerShrink', 
   'app.core',  
   'app.placas',
   'app.fotos',
-  'app.zumero',
-  'ngCordova',
+  'ngCordova',  
   'ionic.service.core',
   'ionic.service.push'])
 
@@ -26,21 +27,7 @@ angular.module('starter', ['ionic', 'ionic.ion.headerShrink',
   });
 }])
 
-.run(function($ionicPlatform) {
-  $ionicPlatform.ready(function() {
-    // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
-    // for form inputs)
-    if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
-      cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
-      cordova.plugins.Keyboard.disableScroll(true);
 
-    }
-    if (window.StatusBar) {
-      // org.apache.cordova.statusbar required
-      StatusBar.styleLightContent();
-    }
-  });
-})
 
 .config(function($stateProvider, $urlRouterProvider) {
 
@@ -107,4 +94,6 @@ angular.module('starter', ['ionic', 'ionic.ion.headerShrink',
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/tab/dash');
 
-});
+})
+
+
