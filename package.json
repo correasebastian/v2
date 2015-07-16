@@ -15,7 +15,10 @@
     "shelljs": "^0.3.0"
   },
   "cordovaPlugins": [
-    "com.ionic.keyboard"
+    "com.ionic.keyboard",
+    "cordova-plugin-dialogs",
+    "C:\\Users\\sebastianc\\Documents\\ionic\\zumero\\plugin",
+    "org.apache.cordova.device"
   ],
   "cordovaPlatforms": [
     "android"

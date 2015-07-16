@@ -4,9 +4,9 @@
     .run(placaRun)
 
     
-    placaRun.$inject = ['$ionicPlatform','$ionicPush','$rootScope', '$state']
+    placaRun.$inject = ['$ionicPlatform','$ionicPush','$rootScope', '$state', '$cordovaDialogs']
 
-    function placaRun($ionicPlatform,$ionicPush, $rootScope, $state){
+    function placaRun($ionicPlatform,$ionicPush, $rootScope, $state, $cordovaDialogs){
 
     	  $ionicPlatform.ready(function() {
 
@@ -23,14 +23,30 @@
 					        onNotification: function(notification) {
 					          // Handle new push notifications here
 					          // console.log(notification.payload.payload.$state);
+
+					          if(notification.payload){
+					          	
 					          if(notification.payload.payload && notification.payload.payload.$state){
 					          	 var stateparams={};
 					         	 if(notification.payload.payload.$stateParams){
 						          	stateparams= angular.fromJson(notification.payload.payload.$stateParams)
-						          }
-					        
-					          $state.go(notification.payload.payload.$state, stateparams);
+						          
+							          $cordovaDialogs.beep(1);
+								          	$cordovaDialogs.confirm('message', 'title', ['cancel','ok'])
+										    .then(function(buttonIndex) {
+										      // no button = 0, 'OK' = 1, 'Cancel' = 2
+										      var btnIndex = buttonIndex;
+										      if(btnIndex===2){
+										      	$state.go(notification.payload.payload.$state, stateparams);
+										      }
+										    });	
+						          }					             				        
+					          
 					          }
+
+
+					          }
+
 					         
 					          return true;
 					        }

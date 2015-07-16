@@ -1,10 +1,12 @@
 // Ionic Starter App
 
 var v=null;
+var z =null;
 angular.module('starter', ['ionic', 'ionic.ion.headerShrink', 
   'app.core',  
   'app.placas',
   'app.fotos',
+  'app.zumero',
   'ngCordova',
   'ionic.service.core',
   'ionic.service.push'])
