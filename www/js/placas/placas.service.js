@@ -4,21 +4,15 @@
 	.module('app.placas')    
 
 	.factory('placaService', placaService)
-	placaService.$inject=['$filter','exception', '$http' , 'logger' , 'promise','consultaService'];
-	function placaService (  $filter , exception, $http, logger, promise, consultaService) {
+	placaService.$inject=['$filter','exception', '$http' , 'logger' , 'promise','consultaService' , 'Sqlite', 'store'];
+	function placaService (  $filter , exception, $http, logger, promise       , consultaService  ,Sqlite , store) {
 
-		var states=[
-					{state:0, clase:'ion-clock', label:'pendiente'},
-					{state:1, clase:'ion-thumbsup', label:'aprobado'},
-					{state:2, clase:'ion-happy-outline', label:'aceptado'},
-					{state:3, clase:'ion-thumbsdown', label:'rechazado'},
-					{state:4, clase:'ion-sad-outline', label:'deshabilitado'}
-					];
-
+	
 		var placaFactory= {
 			getAvengerCount:getAvengerCount	,
 			getAvengersCast : getAvengersCast,
-			getPlacas:getPlacas	
+			getPlacas:getPlacas,
+			insertPlaca:insertPlaca
 		}
 		
 		//return factory object
@@ -38,8 +32,38 @@
 		}
 
 		function getPlacas () {
-			var data=[{placa:'abc'}, {placa:'def'}]
-			return promise.emulate('getAvengersCast',data,3000);			
+			//
+			var query=store.get('consulta').cPlacas;//consultaService.consultas.cPlacas;
+			var binding=[];
+			return Sqlite.execute(query, binding)
+                .then(getPlacasComplete)
+                .catch(exception.catcher('llamado para obtener placas ha fallado'));
+			
+			function getPlacasComplete (data) {
+					// function onPlacaZync () {
+						var array=Sqlite.rtnArray(data);
+						return array
+					// }
+				// return zumeroService.zync('getPlacasComplete').then(onPlacaZync)
+
+				
+				// var array=Sqlite.rtnArray(data);
+				// return array;
+				
+			}
+		}
+
+		function insertPlaca () {
+			//store.get('consulta').cPlacas;
+			var query=consultaService.consultas.cInsertPlaca;
+			var binding=[new Date().toISOString(), 'abc123'];
+			return Sqlite.execute(query, binding)
+                .then(insertPlacaComplete)
+                .catch(exception.catcher('ingreso de  placa ha fallado'));
+			
+			function insertPlacaComplete () {				
+				return true				
+			}
 		}
 
 

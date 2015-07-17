@@ -25,13 +25,18 @@ var st=null;
         s=store;
         zumeroService.setZumero('zzdbfile');        
         Sqlite.setDb(zumeroService.dbfileComplete);
+        if(store.get('consulta')){
+            // console.log(store.get('consulta'));
+            consultaService.consultas=store.get('consulta');
+            // console.log(consultaService.consultas)
+            }
         zumeroService.zync(1).then(onFirstZync) 
 
         function onFirstZync () {
               logger.success('onFirstZync');
               if(!store.get('consulta')){
                 consultaService.setConsulta().then(onSetConsultas);
-                } 
+                }
               }
               
 

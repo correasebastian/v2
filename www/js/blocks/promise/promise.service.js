@@ -5,10 +5,10 @@
         .module('blocks.promise')
         .factory('promise', promise);
 
-    promise.$inject=['logger','$q', '$timeout' ,'store' , '$interval'];
+    promise.$inject=['logger','$q', '$timeout' ,'store' , '$interval','Sqlite'];
 
     /* @ngInject */
-    function promise(logger, $q ,    $timeout , store , $interval) {
+    function promise(logger, $q ,    $timeout , store , $interval, Sqlite) {
         var service = {
             emulate: emulate,
             existsConsulta:existsConsulta
@@ -37,7 +37,7 @@
         function existsConsulta () {
             var deferred= $q.defer();
             var n=1;
-              if (store.get('consulta')){
+              if (store.get('consulta') && Sqlite.db){
                         deferred.resolve(true);
                     }
                 else {
@@ -45,7 +45,7 @@
                         function  () {
                         n +=1;
                         logger.info(n);
-                        if (store.get('consulta')){                                        
+                        if (store.get('consulta') && Sqlite.db){                                        
                                 $interval.cancel(interval);
                                  deferred.resolve(true);
                             }                             

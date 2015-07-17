@@ -47,7 +47,7 @@ var v=null;
     views: {
       'tab-dash': {
         templateUrl: 'js/placas/tab-placas.html',
-        controller: 'Placas as PCtrl',
+        controller: 'Placas as PCtrl'
         // resolve: {
         //         moviesPrepService: moviesPrepService
         //     }

@@ -38,7 +38,7 @@ var p=null;
 								          
 									         $cordovaDialogs.beep(1);
 									         if( pushService.active){
-									         		$cordovaDialogs.confirm('message', 'title', ['cancel','ok'])
+									         		$cordovaDialogs.confirm(notification.payload.payload.message, notification.payload.payload.title, ['cancel','ok'])
 												    .then(function(buttonIndex) {
 												      // no button = 0, 'OK' = 1, 'Cancel' = 2
 												      var btnIndex = buttonIndex;

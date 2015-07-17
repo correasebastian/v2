@@ -50,8 +50,8 @@
 		    // Identify your user with the Ionic User Service
 		   return  $ionicUser.identify(user).then(function(){
 		   		console.log('user.name' , user.name, 'user_id', user.user_id)
-		      	identified = true;
-		      	return identified;		      		      
+		      	identifyFactory.identified = true;
+		      	return identifyFactory.identified;		      		      
 		    });
 		  };
 		}

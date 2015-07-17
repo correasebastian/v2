@@ -5,9 +5,9 @@
         .module('app.placas')
         .controller('Placas', Placas);
 
-    Placas.$inject = ['$q', 'placaService', 'logger', 'identifyService','promise'];
+    Placas.$inject = ['$q', 'placaService', 'logger', 'identifyService','promise','zumeroService', 'sendPush'];
 
-    function Placas($q, placaService, logger, identifyService, promise) {
+    function Placas($q, placaService, logger, identifyService, promise , zumeroService , sendPush) {
 
         /*jshint validthis: true */
         var vm = this;
@@ -19,6 +19,7 @@
         vm.avengerCount = 0;
         vm.avengers = [];
         vm.title = 'Placas';
+        vm.insertPLaca=insertPLaca;
 
         // $ionicPlatform.ready(function() {
 
@@ -61,6 +62,18 @@
                     return placaService.getPlacas().then(function(data) {
                         vm.placas = data;
                         return vm.placas;
+                    });
+                }
+
+                function insertPLaca () {
+                    placaService.insertPlaca().then(function() {
+                        getPlacas().then(zyncAfterInsertPlaca)
+
+                        function zyncAfterInsertPlaca () {
+                            zumeroService.zync('getPlacasComplete').then(function (){
+                                sendPush.send();
+                            })
+                        }
                     });
                 }
 

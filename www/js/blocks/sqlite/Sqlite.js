@@ -16,22 +16,23 @@
             setDb:setDb,
             execute:execute,
             insertCollection:insertCollection,
-            rtnArray:rtnArray
+            rtnArray:rtnArray,
+            db:null
             
         };
 
     return service;
 
         function setDb (dbname) {            
-             _db=$cordovaSQLite.openDB(dbname, 1);                 
+             service.db=$cordovaSQLite.openDB(dbname, 1);                 
          }
          
          function execute (query, binding) {
-             return $cordovaSQLite.execute(_db,query, binding); 
+             return $cordovaSQLite.execute(service.db,query, binding); 
          }
 
           function insertCollection (query, bindings) {
-             return $cordovaSQLite.insertCollection(_db,query, bindings); 
+             return $cordovaSQLite.insertCollection(service.db,query, bindings); 
          }
 
          function rtnArray(res) {
