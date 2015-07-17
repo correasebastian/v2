@@ -4,8 +4,8 @@
 	.module('app.placas')    
 
 	.factory('placaService', placaService)
-	placaService.$inject=['$filter','exception', '$http' , 'logger' , 'promise'];
-	function placaService (  $filter , exception, $http, logger, promise) {
+	placaService.$inject=['$filter','exception', '$http' , 'logger' , 'promise','consultaService'];
+	function placaService (  $filter , exception, $http, logger, promise, consultaService) {
 
 		var states=[
 					{state:0, clase:'ion-clock', label:'pendiente'},
@@ -27,6 +27,9 @@
 		//implementacion
 
 		function getAvengerCount () {
+			logger.log('-----------------------------------------' )
+			logger.log(consultaService.consultas);
+			
 			return promise.emulate('getAvengerCount','',2000);			
 		}
 

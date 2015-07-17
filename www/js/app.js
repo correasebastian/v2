@@ -2,16 +2,14 @@
 
 var v=null;
 
-
-
-   angular.module('starter', ['ionic', 'ionic.ion.headerShrink', 
+(function () {
+   
+   angular.module('starter', [ 
   'app.core',  
   'app.placas',
-  'app.fotos',
-  'ngCordova', 
+  'app.fotos',  
   'app.consulta', 
-  'ionic.service.core',
-  'ionic.service.push'])
+ ])
 
 .config(['$ionicAppProvider', function($ionicAppProvider) {
   // Identify app
@@ -49,7 +47,11 @@ var v=null;
     views: {
       'tab-dash': {
         templateUrl: 'js/placas/tab-placas.html',
-        controller: 'Placas as PCtrl'
+        controller: 'Placas as PCtrl',
+        // resolve: {
+        //         moviesPrepService: moviesPrepService
+        //     }
+        // });
       }
     }
   })
@@ -98,3 +100,5 @@ var v=null;
 })
 
 
+
+})(); 

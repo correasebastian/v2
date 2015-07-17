@@ -5,9 +5,9 @@
         .module('app.fotos')
         .controller('Fotos', Fotos);
 
-    Fotos.$inject = ['$q', 'fotoService', 'logger','$ionicPopover','$ionicPopup', '$scope', '$stateParams'];
+    Fotos.$inject = ['$q', 'fotoService', 'logger','$ionicPopover','$ionicPopup', '$scope', '$stateParams' , 'promise'];
 
-    function Fotos($q, fotoService, logger,$ionicPopover,$ionicPopup, $scope , $stateParams) {
+    function Fotos($q, fotoService, logger,        $ionicPopover,   $ionicPopup,   $scope , $stateParams , promise) {
 
         /*jshint validthis: true */
         var vm = this;
@@ -38,11 +38,30 @@
         vm.matriculaPopup =matriculaPopup; 
         vm.setSistemas=setSistemas;
 
-        activate();
+
+         preActivate();
+
+
+        function preActivate () {    
+        promise.existsConsulta().then(onCompleteExistsConsulta)
+            function onCompleteExistsConsulta () {
+               activate()
+            }
+         }
+
+        // activate();
 
         function activate() {
             
-            var promises = [getAvengerCount(), getAvengersCast(), getFotos(),setPopOver(),getMatriculasDictamenes(),getSistemasDictamenes(),getMatriculasDictamen(),getSistemasDictamen()];
+            var promises = [getAvengerCount(), 
+                            getAvengersCast(), 
+                            getFotos(),
+                            setPopOver(),
+                            getMatriculasDictamenes(),
+                            getSistemasDictamenes(),
+                            getMatriculasDictamen(),
+                            getSistemasDictamen()
+                            ];
 //            Using a resolver on all routes or Fotoservice.ready in every controller
 //            return Fotoservice.ready(promises).then(function(){
             return $q.all(promises).then(function(res) {

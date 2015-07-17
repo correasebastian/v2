@@ -20,7 +20,7 @@
     return consultaFactory;
 
       function setConsulta () {
-        var query='SELECT [idconsulta]  ,[cSistemasDictamenes],[cMatriculasDictamenes]  FROM [consultasSqlite]';
+        var query='SELECT *  FROM [consultasSqlite]';
         var binding=[];  
 
         return Sqlite.execute(query, binding)
@@ -29,8 +29,9 @@
 
             function getConsultaCompleteFromSqlite(data) {
               var object=Sqlite.rtnArray(data)[0];
-              console.log(object);
+              logger.success('consultainicial ok');
               consultaFactory.consultas=object;
+              return consultaFactory.consultas;
               // return setProspects(array);              
             }         
       }

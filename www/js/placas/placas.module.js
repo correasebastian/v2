@@ -1,7 +1,7 @@
 (function() {
     'use strict';
     angular.module('app.placas', [])
-    .run(placaRun)
+    /*.run(placaRun)
 
     
     placaRun.$inject = ['$ionicPlatform','$ionicPush','$rootScope', '$state', '$cordovaDialogs']
@@ -65,7 +65,7 @@
 	    })
 
 
-    }
+    }*/
 
  
 

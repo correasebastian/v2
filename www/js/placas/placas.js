@@ -5,9 +5,9 @@
         .module('app.placas')
         .controller('Placas', Placas);
 
-    Placas.$inject = ['$q', 'placaService', 'logger', 'identifyService'];
+    Placas.$inject = ['$q', 'placaService', 'logger', 'identifyService','promise'];
 
-    function Placas($q, placaService, logger, identifyService) {
+    function Placas($q, placaService, logger, identifyService, promise) {
 
         /*jshint validthis: true */
         var vm = this;
@@ -22,7 +22,15 @@
 
         // $ionicPlatform.ready(function() {
 
-         activate();
+         preActivate();
+
+
+                function preActivate () {    
+                promise.existsConsulta().then(onCompleteExistsConsulta)
+                    function onCompleteExistsConsulta () {
+                       activate()
+                    }
+                 }
 
                 function activate() {
                     var promises = [getAvengerCount(), getAvengersCast(), getPlacas(),identifyUser()];
@@ -32,6 +40,8 @@
                         logger.info('Activated Placas View', res);
                     });
                 }
+
+
 
                 function getAvengerCount() {
                     return placaService.getAvengerCount().then(function(data) {

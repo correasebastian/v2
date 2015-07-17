@@ -5,11 +5,22 @@
         /*
          * Angular modules
          */
-        'ngAnimate',  'ngSanitize',
+        'ngAnimate',  'ngSanitize','angular-storage',
         /*
          * Our reusable cross app code modules
          */
-        'blocks.exception', 'blocks.logger','blocks.promise', 'blocks.sqlite','blocks.zumero'
+        'blocks.exception', 'blocks.logger',
+        'blocks.promise', 'blocks.push',
+        'blocks.sqlite','blocks.zumero',
         // , 'blocks.router'
+
+        /*
+        ionic
+
+        */
+         'ionic.service.core',
+         'ionic.service.push','ionic', 'ionic.ion.headerShrink',
+         'ngCordova'
+
     ]);
 })();
