@@ -1,4 +1,18 @@
 <ion-view view-title="{{FCtrl.title}}">
+<div class="float-button fbCamera">
+  <span class="height-fix">   
+    <a on-touch="openModal()"  class="button content button-icon ">    
+      <i class="ion-camera my-icon"> </i>
+    </a>
+  </span>
+</div>
+<div class="float-button fbAdd">
+    <span class="height-fix">
+      <a on-touch="FCtrl.zync()"  class="button content button-icon ">      
+        <i class="ion-android-upload my-icon"> </i>
+      </a>
+    </span>
+  </div>
  <ion-nav-buttons side="secondary">
       <button class="button button-icon icon ion-drag" ng-click="FCtrl.openPopover($event)">
         
@@ -11,13 +25,13 @@
 <div class="list card" ng-repeat="foto in FCtrl.fotos">
 
   <div class="item item-avatar">
-    <img ng-src="{{foto.src}}">
+    <img ng-src="{{foto.path}}">
     <h2>Pretty Hate Machine</h2>
     <p>Nine Inch Nails</p>
   </div>
 
   <div class="item item-image">
-    <img ng-src="{{foto.src}}">
+    <img ng-src="{{foto.path}}">
   </div>
 
   <a class="item item-icon-left assertive" href="#">

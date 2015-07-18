@@ -4,8 +4,8 @@
 	.module('app.fotos')    
 
 	.factory('fotoService', fotoService)
-	fotoService.$inject=['$filter','exception', '$http' , 'logger' , 'promise', '$q'];
-	function fotoService (  $filter , exception, $http, logger, promise, $q) {
+	fotoService.$inject=['$filter','exception', '$http' , 'logger' , 'promise', '$q'  , 'store', 'Sqlite', 'zumeroService'];
+	function fotoService (  $filter , exception, $http, logger, promise,         $q    ,  store,   Sqlite, zumeroService) {
 
 		
 
@@ -18,13 +18,18 @@
 			getSistemasDictamen:getSistemasDictamen,
 			getMatriculasDictamen:getMatriculasDictamen,
 			setSistemas:setSistemas,
-			setMatricula:setMatricula
+			setMatricula:setMatricula,
+			zync:zync
 		}
 		
 		//return factory object
 		return placaFactory;
 
 		//implementacion
+		function zync () {
+			console.log(zumeroService)
+			zumeroService.zync('on fotos');
+		}
 
 		function getAvengerCount () {
 			return promise.emulate('getAvengerCount','',2000);			
@@ -34,14 +39,18 @@
 			return promise.emulate('getAvengersCast','',3000);			
 		}
 
-		function getFotos () {
-			var data=[
-					{placa:'abc',src:'http://190.145.39.138/Img/fotos/2015/julio/14/WDX857/1436902247425.jpg'},
-					{placa:'def', src:'http://190.145.39.138/Img/fotos/2015/julio/14/WDX857/1436902537477.jpg'},
-					{placa:'abcd',src:'http://190.145.39.138/Img/fotos/2015/julio/14/WDX857/1436902247425.jpg'},
-					{placa:'defg', src:'http://190.145.39.138/Img/fotos/2015/julio/14/WDX857/1436902537477.jpg'}
-					]
-			return promise.emulate('getAvengersCast',data,3000);			
+		function getFotos (idinspeccion) {
+			//
+			var query=store.get('consulta').cFotos;//consultaService.consultas.cPlacas;
+			var binding=[idinspeccion];
+			return Sqlite.execute(query, binding)
+                .then(getFotosComplete)
+                .catch(exception.catcher('llamado para obtener fotos ha fallado'));
+			
+			function getFotosComplete (data) {					
+				var array=Sqlite.rtnArray(data);
+				return array				
+			}
 		}
 
 

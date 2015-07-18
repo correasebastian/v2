@@ -1,9 +1,17 @@
 <ion-view view-title="{{PCtrl.title}}">
+<div class="float-button fbAdd">
+    <span class="height-fix">
+      <a on-touch="PCtrl.placaPopup()"  class="button content button-icon ">
+      <!-- ui-sref="add-trip" -->
+        <i class="ion-plus-round my-icon"> </i>
+      </a>
+    </span>
+  </div>
   <ion-content>
-<span>{{PCtrl}}</span>
+<!-- <span>{{PCtrl}}</span> -->
 
 <ion-list>
-  <ion-item class="item-icon-right" ng-repeat="placa in PCtrl.placas" href="#/tab/chats/{{placa.placa}}">
+  <ion-item class="item-icon-right" ng-repeat="placa in PCtrl.placas" href="#/tab/chats/{{placa.idinspeccion}}">
    {{placa.placa}}
       <i class="icon ion-chevron-right icon-accessory"></i>
   </ion-item>

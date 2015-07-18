@@ -75,7 +75,7 @@ var v=null;
     }
     })
     .state('tab.chat-detail', {
-      url: '/chats/:placa',
+      url: '/chats/:idinspeccion',
        views: {
         'tab-chats': {
           templateUrl: 'js/fotos/tab-fotos.html',

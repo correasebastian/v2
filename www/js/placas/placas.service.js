@@ -53,10 +53,10 @@
 			}
 		}
 
-		function insertPlaca () {
+		function insertPlaca (placa) {
 			//store.get('consulta').cPlacas;
 			var query=consultaService.consultas.cInsertPlaca;
-			var binding=[new Date().toISOString(), 'abc123'];
+			var binding=[new Date().toISOString(), placa];
 			return Sqlite.execute(query, binding)
                 .then(insertPlacaComplete)
                 .catch(exception.catcher('ingreso de  placa ha fallado'));
