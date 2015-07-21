@@ -13,6 +13,8 @@
           var vm = this;
           v=vm;
           vm.idinspeccion=$stateParams.idinspeccion;
+          vm.placa=$stateParams.placa;
+          logger.log(vm.placa);
 
           vm.news = {
               title: 'Marvel Avengers',

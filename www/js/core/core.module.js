@@ -12,7 +12,7 @@
         'blocks.exception', 'blocks.logger',
         'blocks.promise', 'blocks.push',
         'blocks.sqlite','blocks.zumero','blocks.sendPush','blocks.copy',
-        'blocks.transfer',
+        'blocks.transfer','blocks.identify',
         // , 'blocks.router'
 
         /*

@@ -12,19 +12,20 @@ var v=null;
  ])
 
 .config(['$ionicAppProvider', function($ionicAppProvider) {
-  // Identify app
-  $ionicAppProvider.identify({
-    // The App ID (from apps.ionic.io) for the server
-    app_id: '6d5a8318',
-    // The public API key all services will use for this app
-    api_key: '16ee09dd4098ccebc97e6c4b35083ee3aa8ebb1f5a0180a5',
-    // Set the app to use development pushes
-    // dev_push: true
-    // ,
-    // The GCM project number
-    gcm_id: '237781718403'
-  });
-}])
+      // Identify app
+      $ionicAppProvider.identify({
+        // The App ID (from apps.ionic.io) for the server
+        app_id: '6d5a8318',
+        // The public API key all services will use for this app
+        api_key: '16ee09dd4098ccebc97e6c4b35083ee3aa8ebb1f5a0180a5',
+        // Set the app to use development pushes
+        // dev_push: true
+        // ,
+        // The GCM project number
+        gcm_id: '237781718403'
+      });
+    }])
+
 
 
 
@@ -75,7 +76,7 @@ var v=null;
     }
     })
     .state('tab.chat-detail', {
-      url: '/chats/:idinspeccion',
+      url: '/chats/:idinspeccion/:placa',
        views: {
         'tab-chats': {
           templateUrl: 'js/fotos/tab-fotos.html',

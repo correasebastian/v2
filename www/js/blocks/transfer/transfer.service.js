@@ -6,9 +6,9 @@
     .module('blocks.transfer')  
     .factory('transferService', transferService)
 
-    transferService.$inject=['$cordovaFile', 'logger','exception','$cordovaFileTransfer']
+    transferService.$inject=['$cordovaFile', 'logger','exception','$cordovaFileTransfer' ,'consultaService']
 
-    function transferService($cordovaFile, logger , exception    ,   $cordovaFileTransfer){
+    function transferService($cordovaFile, logger , exception    ,   $cordovaFileTransfer, consultaService){
     
       var Factory= {
       upload:upload 
@@ -21,7 +21,7 @@
 
     function upload(fileEntry) {
        var nativeURL=fileEntry.nativeURL;
-       var timeout=25000;
+       var timeout=consultaService.consultas.timeoutFotos;//25000;
        var FileName = nativeURL.replace(/^.*[\\\/]/, '');
         logger.log(FileName);
         var fileExt = FileName.split('.').pop();

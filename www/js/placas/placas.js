@@ -5,9 +5,9 @@
         .module('app.placas')
         .controller('Placas', Placas);
 
-    Placas.$inject = ['$q', 'placaService', 'logger', 'identifyService','promise','zumeroService', 'sendPush', '$scope', '$ionicPopup'];
+    Placas.$inject = ['$q', 'placaService', 'logger', 'promise','zumeroService', 'sendPush', '$scope', '$ionicPopup'];
 
-    function Placas($q,placaService,logger,identifyService,promise,zumeroService,sendPush,$scope,$ionicPopup) {
+    function Placas($q,placaService,logger,promise,zumeroService,sendPush,$scope,$ionicPopup) {
 
 
         console.log(zumeroService, 'zumero service on placas')
@@ -36,7 +36,7 @@
            }
 
           function activate() {
-              var promises = [ getPlacas(),identifyUser()];
+              var promises = [ getPlacas()];
   //            Using a resolver on all routes or placaService.ready in every controller
   //            return placaService.ready(promises).then(function(){
               return $q.all(promises).then(function(res) {
