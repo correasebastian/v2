@@ -20,7 +20,8 @@
     "C:\\Users\\sebastianc\\Documents\\ionic\\zumero\\plugin",
     "org.apache.cordova.device",
     "org.apache.cordova.camera",
-    "org.apache.cordova.file"
+    "org.apache.cordova.file",
+    "org.apache.cordova.file-transfer"
   ],
   "cordovaPlatforms": [
     "android"

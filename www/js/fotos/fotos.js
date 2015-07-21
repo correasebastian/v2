@@ -5,9 +5,9 @@
         .module('app.fotos')
         .controller('Fotos', Fotos);
 
-    Fotos.$inject = ['$q', 'fotoService', 'logger','$ionicPopover','$ionicPopup', '$scope', '$stateParams' , 'promise', 'copyService' ];
+    Fotos.$inject = ['$q', 'fotoService', 'logger','$ionicPopover','$ionicPopup', '$scope', '$stateParams' , 'promise', 'copyService', 'transferService' ];
 
-    function Fotos($q,fotoService,logger,$ionicPopover,$ionicPopup,$scope,$stateParams                      ,promise, copyService) {
+    function Fotos($q,fotoService,logger,$ionicPopover,$ionicPopup,$scope,$stateParams                      ,promise, copyService     , transferService) {
         // console.log(zumeroService, 'zumero service on fotos')
           /*jshint validthis: true */
           var vm = this;
@@ -226,6 +226,8 @@
         .then(onCompleteTakePic)
         .then(copyFile)
         .then(onCompleteCopyFile)
+        .then(uploadFile)
+        .then(onCompleteUploadFile)
           function onCompleteTakePic (imageURI) {
             logger.log(imageURI)
             vm.fotos.push({path:imageURI});
@@ -238,6 +240,15 @@
 
           function onCompleteCopyFile (FileEntry) {
             logger.info('copiado local', FileEntry)
+            return FileEntry
+          }
+
+          function uploadFile (FileEntry) {
+            return transferService.upload(FileEntry);
+          }
+
+          function onCompleteUploadFile (res) {
+            logger.info('subido ok', res)
           }
 
 
