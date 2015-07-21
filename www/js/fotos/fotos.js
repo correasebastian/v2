@@ -228,6 +228,7 @@
         .then(onCompleteTakePic)
         .then(copyFile)
         .then(onCompleteCopyFile)
+        .then(insertFoto)
         .then(uploadFile)
         .then(onCompleteUploadFile)
           function onCompleteTakePic (imageURI) {
@@ -243,6 +244,10 @@
           function onCompleteCopyFile (FileEntry) {
             logger.info('copiado local', FileEntry)
             return FileEntry
+          }
+
+          function insertFoto (FileEntry) {
+            return fotoService.insertFoto(vm.idinspeccion, vm.placa, FileEntry)
           }
 
           function uploadFile (FileEntry) {

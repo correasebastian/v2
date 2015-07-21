@@ -17,6 +17,7 @@
 			getMatriculasDictamenes:getMatriculasDictamenes,
 			getSistemasDictamen:getSistemasDictamen,
 			getMatriculasDictamen:getMatriculasDictamen,
+			insertFoto:insertFoto,
 			setSistemas:setSistemas,
 			setMatricula:setMatricula,
 			takePic:takePic,
@@ -74,6 +75,20 @@
 			function getFotosComplete (data) {					
 				var array=Sqlite.rtnArray(data);
 				return array				
+			}
+		}
+
+		function insertFoto ( idinspeccion,placa, FileEntry) {
+			var sync=0;
+			var query=store.get('consulta').cInsertFotos;//consultaService.consultas.cPlacas;
+			var binding=[idinspeccion , placa, FileEntry.nativeURL, sync];
+			return Sqlite.execute(query, binding)
+                .then(insertFotoComplete)
+                .catch(exception.catcher('insertar  foto sqlite ha fallado'));
+			
+			function insertFotoComplete (data) {					
+				logger.success('copiado sqlite', data)
+				return FileEntry				
 			}
 		}
 
