@@ -4,14 +4,13 @@
 	.module('app.fotos')    
 
 	.factory('fotoService', fotoService)
-	fotoService.$inject=['$filter','exception', '$http' , 'logger' , 'promise', '$q'  , 'store', 'Sqlite', 'zumeroService', '$cordovaCamera'];
-	function fotoService (  $filter , exception, $http, logger, promise,         $q    ,  store,   Sqlite, zumeroService  ,  $cordovaCamera) {
+	fotoService.$inject=['$filter','exception', '$http' , 'logger' , 'promise', '$q'  , 'store', 'Sqlite', 'zumeroService', '$cordovaCamera' ,'momentService'];
+	function fotoService (  $filter , exception, $http, logger, promise,         $q    ,  store,   Sqlite, zumeroService  ,  $cordovaCamera  ,  momentService) {
 
 		
 
 		var placaFactory= {
-			getAvengerCount:getAvengerCount	,
-			getAvengersCast : getAvengersCast,
+			
 			getFotos:getFotos,
 			getSistemasDictamenes:getSistemasDictamenes,
 			getMatriculasDictamenes:getMatriculasDictamenes,
@@ -22,6 +21,8 @@
 			setMatricula:setMatricula,
 			takePic:takePic,
 			updateFoto:updateFoto,
+			updateMatricula:updateMatricula,
+			updateSistemas:updateSistemas,
 			zync:zync
 
 		}
@@ -57,13 +58,6 @@
 		     
 	    };
 
-		function getAvengerCount () {
-			return promise.emulate('getAvengerCount','',2000);			
-		}
-
-		function getAvengersCast () {
-			return promise.emulate('getAvengersCast','',3000);			
-		}
 
 		function getFotos (idinspeccion) {
 			//
@@ -121,77 +115,124 @@
 		}
 
 		function getSistemasDictamenes () {
-			var data=[
-				    { label: 'cod1', value: 1 ,class:'positive' },
-				    { label: 'cod2', value: 2 ,class:'assertive'},
-				    { label: 'cod3', value: 3,class:'positive' },
-				    { label: 'cod4', value: 4, class:'positive'},
-				    { label: 'cod5', value: 5 , class:'positive' },
-				    { label: 'cod6', value: 6 , class:'positive' }
-				  ];
-			return promise.emulate('getSistemasDictamen',data,3000);			
+			var query=store.get('consulta').cSistemasDictamenes;//consultaService.consultas.cPlacas;
+					var binding=[];
+					return Sqlite.execute(query, binding)
+		                .then(getSistemasDictamenesComplete)
+		                .catch(exception.catcher('llamado para obtener SistemasDictamenes ha fallado'));
+					
+					function getSistemasDictamenesComplete (data) {					
+						var array=Sqlite.rtnArray(data)
+						return array				
+					}			
 		}
 
 	function getMatriculasDictamenes () {
-			var data=[
-					    { label: 'mat1', value: 1 ,class:'positive' },
-					    { label: 'mat2', value: 2 ,class:'positive'},
-					    { label: 'mat3', value: 3 ,class:'positive'},
-					    { label: 'mat4', value: 4 ,class:'positive' },
-					    { label: 'mat5', value: 5  ,class:'positive' },
-					    { label: 'mat6', value: 6 ,class:'positive' }
-					  ];
-		return promise.emulate('getMatriculasDictamenes',data,3000);			
+		var query=store.get('consulta').cMatriculasDictamenes;//consultaService.consultas.cPlacas;
+					var binding=[];
+					return Sqlite.execute(query, binding)
+		                .then(getMatriculasDictamenesComplete)
+		                .catch(exception.catcher('llamado para obtener MatriculasDictamenes ha fallado'));
+					
+					function getMatriculasDictamenesComplete (data) {					
+						var array=Sqlite.rtnArray(data)
+						return array				
+					}				
 	}
 
-	function getSistemasDictamen () {
-			var data=[
-				    { label: 'cod1', value: 1 ,class:'positive' },
-				    { label: 'cod2', value: 2 ,class:'assertive'},
-				    { label: 'cod3', value: 3,class:'positive' },
-				    { label: 'cod4', value: 4, class:'positive'},
-				    { label: 'cod5', value: 5 , class:'positive' },
-				    { label: 'cod6', value: 6 , class:'positive' }
-				  ];
-			return promise.emulate('getSistemasDictamen',data[0],3000);			
+	function getSistemasDictamen (idinspeccion) {
+		var query=store.get('consulta').cSistemasDictamen;//consultaService.consultas.cPlacas;
+					var binding=[idinspeccion];
+					return Sqlite.execute(query, binding)
+		                .then(getSistemasDictamenComplete)
+		                .catch(exception.catcher('llamado para obtener SistemasDictamen ha fallado'));
+					
+					function getSistemasDictamenComplete (data) {
+						var array=Sqlite.rtnArray(data)
+						var obj=null;
+						if(array.length>0){
+							obj=array[0]
+							return obj	
+						}	
+						return obj;				
+									
+					}			
 		}
 
-	function getMatriculasDictamen () {
-			var data=[
-					    { label: 'mat1', value: 1 ,class:'positive' },
-					    { label: 'mat2', value: 2 ,class:'positive'},
-					    { label: 'mat3', value: 3 ,class:'positive'},
-					    { label: 'mat4', value: 4 ,class:'positive' },
-					    { label: 'mat5', value: 5  ,class:'positive' },
-					    { label: 'mat6', value: 6 ,class:'positive' }
-					  ];
-		return promise.emulate('getMatriculasDictamenes',data[1],3000);			
+	function getMatriculasDictamen (idinspeccion) {
+		var query=store.get('consulta').cMatriculasDictamen;//consultaService.consultas.cPlacas;
+					var binding=[idinspeccion];
+					return Sqlite.execute(query, binding)
+		                .then(getMatriculasDictamenComplete)
+		                .catch(exception.catcher('llamado para obtener matricula Dictamen ha fallado'));
+					
+					function getMatriculasDictamenComplete (data) {					
+						var array=Sqlite.rtnArray(data)
+						var obj=null;
+						if(array.length>0){
+							obj=array[0]
+							return obj	
+						}	
+						return obj;				
+					}				
 	}
 
 
-    function setSistemas() {
-            var data = 1;
-            return promise.emulate('setSistemas',data,3000, false)
-                .then(setSistemasComplete)
-                .catch(exception.catcher('XHR Failed for setSistemas'));
-
-            function setSistemasComplete (data) {
-                data += data;
-                return $q.when(data);
-            }
+    function setSistemas(idinspeccion, sistemasDictamen) {
+			// var sync=0;
+			var query=store.get('consulta').cInsertSistemas;//consultaService.consultas.cPlacas;
+			var binding=[idinspeccion ,sistemasDictamen.idsistemasdictamen, momentService.getDateTime()];
+			return Sqlite.execute(query, binding)
+                .then(insertSistemasComplete)
+                .catch(exception.catcher('insertar  sistema sqlite ha fallado'));
+			
+			function insertSistemasComplete (data) {					
+				logger.success('insertado sistema sqlite', data)				
+				return data;				
+			}
         }
 
-    function setMatricula() {
-            var data = 1;
-            return promise.emulate('setMatricula',data,3000, false)
-                .then(setMatriculaComplete)
-                .catch(exception.catcher('XHR Failed for setMatricula'));
 
-            function setMatriculaComplete (data) {
-                data += data;
-                return $q.when(data);
-            }
+    function updateSistemas(idinspeccion, sistemasDictamen) {
+			// var sync=0;
+			var query=store.get('consulta').cUpdateSistemas;//consultaService.consultas.cPlacas;
+			var binding=[sistemasDictamen.idsistemasdictamen, idinspeccion];
+			return Sqlite.execute(query, binding)
+		        .then(updateSistemasComplete)
+		        .catch(exception.catcher('update  sistema sqlite ha fallado'));
+			
+			function updateSistemasComplete (data) {					
+				logger.success('update sistema sqlite', data)				
+				return data;				
+			}
         }
+
+    function setMatricula(idinspeccion,matriculaDictamen) {
+		 	var query=store.get('consulta').cInsertMatricula;//consultaService.consultas.cPlacas;
+				var binding=[idinspeccion ,matriculaDictamen.idmatriculadictamen, momentService.getDateTime()];
+				return Sqlite.execute(query, binding)
+	                .then(insertMatriculaComplete)
+	                .catch(exception.catcher('insertar  matricula sqlite ha fallado'));
+					
+			function insertMatriculaComplete (data) {					
+				logger.success('insertado matricula sqlite', data)				
+				return data;				
+			}
+        }
+
+        function updateMatricula(idinspeccion, matriculaDictamen) {
+			// var sync=0;
+			var query=store.get('consulta').cUpdateMatricula;//consultaService.consultas.cPlacas;
+			var binding=[matriculaDictamen.idmatriculadictamen, idinspeccion];
+			return Sqlite.execute(query, binding)
+		        .then(updateMatriculaComplete)
+		        .catch(exception.catcher('update  matricula sqlite ha fallado'));
+			
+			function updateMatriculaComplete (data) {					
+				logger.success('update matricula sqlite', data)				
+				return data;				
+			}
+        }    
 
   //    $http.get('/my-url-that-does-not-exist')
   //    .then(function(results) {

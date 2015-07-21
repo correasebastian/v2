@@ -3,14 +3,15 @@ var z =null;
 var c=null;
 var s=null;
 var st=null;
+var w=null;
 (function() {
     'use strict';
 
     angular.module('app.core')
     .run(coreRun)
-    coreRun.$inject=['$ionicPlatform','zumeroService','Sqlite','logger', 'consultaService','store'];
+    coreRun.$inject=['$ionicPlatform','zumeroService','Sqlite','logger', 'consultaService','store' ,'widgetsService'];
 
-    function coreRun($ionicPlatform,zumeroService, Sqlite, logger, consultaService, store) {
+    function coreRun($ionicPlatform,zumeroService, Sqlite, logger, consultaService, store          ,widgetsService) {
       $ionicPlatform.ready(function() {
          if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
           cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
@@ -23,6 +24,7 @@ var st=null;
         z=zumeroService;
         c=consultaService;
         s=store;
+        w=widgetsService;
         zumeroService.setZumero('zzdbfile');        
         Sqlite.setDb(zumeroService.dbfileComplete);
         if(store.get('consulta')){

@@ -88,3 +88,20 @@ ion-content {
 .ml120{
   margin-left: 120px;
 }
+
+/*
+SPINNER*/
+
+.item-icon-left ion-spinner {
+  float: left;
+  margin-left: -3.2em;
+  margin-right: 1em;
+  margin-top: -0.2em;
+ }
+
+.spinner svg {
+  width: 28px;
+  height: 28px;
+  stroke: #999;
+  fill: #FFD438;
+}

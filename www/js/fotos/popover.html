@@ -6,10 +6,10 @@
              <b> placa: {{FCtrl.data.placa || ''}} </b>
             </a>
             <a class="item" ng-click="FCtrl.sistemasPopup()" ng-class="FCtrl.data.sistemasDictamen.class">
-              Sistemas: {{FCtrl.data.sistemasDictamen.label || ''}} 
+              Sistemas: {{FCtrl.data.sistemasDictamen.descripcion || ''}} 
             </a>
             <a class="item" ng-click="FCtrl.matriculaPopup()" ng-class="{assertive: sistemasDictamen !=null}">
-              Matricula: {{FCtrl.data.matriculasDictamen.label || ''}}
+              Matricula: {{FCtrl.data.matriculasDictamen.descripcion || ''}}
             </a>
             <a class="item" ng-click="baseDatosPopup()">
              Base de Datos

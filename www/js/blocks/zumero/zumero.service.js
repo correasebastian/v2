@@ -6,9 +6,9 @@
     .module('blocks.zumero')  
     .factory('zumeroService', zumeroService)
 
-    zumeroService.$inject=['$q','$timeout','$interval','$cordovaDevice', 'logger']
+    zumeroService.$inject=['$q','$timeout','$interval','$cordovaDevice', 'logger', 'widgetsService']
 
-    function zumeroService($q,$timeout,$interval,$cordovaDevice, logger){
+    function zumeroService($q,$timeout,$interval,$cordovaDevice, logger , widgetsService){
 
       var zumero=null;
       var zumeroFactory= {
@@ -41,6 +41,7 @@
     }
 
     function zync(i){
+      widgetsService.showSpinner()
       console.time('zync' + i);
       var def =$q.defer()
 
@@ -50,13 +51,15 @@
             function onZyncComplete() {
               console.log('ok');
               logger.success('zync' + i);
-              console.timeEnd('zync' + i);              
+              console.timeEnd('zync' + i);  
+              widgetsService.hideSpinner()            
                def.resolve('zync' + i);
          
             }
 
             function onZyncError (error) {
-              exception.catcher('llamado para obtener prospectos ha fallado')(error)
+              widgetsService.hideSpinner() 
+              exception.catcher('zync ha fallado')(error)
               def.reject(error);
             }
 
