@@ -1,6 +1,7 @@
 // Ionic Starter App
 
 var v=null;
+var filter=null;
 
 (function () {
    

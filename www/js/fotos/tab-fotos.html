@@ -8,7 +8,7 @@
 </div>
 <div class="float-button fbAdd">
     <span class="height-fix">
-      <a on-touch="FCtrl.zync()"  class="button content button-icon ">      
+      <a on-touch="FCtrl.uploadFotos()"  class="button content button-icon ">      
         <i class="ion-android-upload my-icon"> </i>
       </a>
     </span>
@@ -22,7 +22,7 @@
   <ion-content  >
   <div style="height: 50px"></div>
 <!-- <span>{{FCtrl}}</span> -->
-<div class="list card" ng-repeat="foto in FCtrl.fotos">
+<div class="list card" ng-repeat="foto in FCtrl.fotos | orderBy : '-idfoto'">
 
   <div class="item item-avatar">
     <img ng-src="{{foto.path}}">
@@ -34,7 +34,7 @@
     <img ng-src="{{foto.path}}">
   </div>
 
-  <a class="item item-icon-left assertive" href="#">
+  <a ng-show="foto.sync==0" class="item item-icon-left assertive" href="#">
     <i class="icon ion-music-note"></i>
     Start listening
   </a>

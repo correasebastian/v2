@@ -20,7 +20,7 @@
     //implementacion
 
     function upload(fileEntry) {
-       var nativeURL=fileEntry.nativeURL;
+       var nativeURL=fileEntry.path;
        var timeout=consultaService.consultas.timeoutFotos;//25000;
        var FileName = nativeURL.replace(/^.*[\\\/]/, '');
         logger.log(FileName);
@@ -52,8 +52,9 @@
         .catch(exception.catcher('subiendo archivo fallo'));
 
         function onCompleteUpload(res) {
-          logger.log('succes en el upload',res );        
-          return res;  //TODO: verificar si puedo poner el error aca y disparar el ooflinemode desde aca y no desde todos los controllers
+          logger.log('succes en el upload',res );  
+          angular.extend(fileEntry, res)    
+          return fileEntry;  //TODO: verificar si puedo poner el error aca y disparar el ooflinemode desde aca y no desde todos los controllers
         } 
       };
 

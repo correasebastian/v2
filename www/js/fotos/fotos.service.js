@@ -21,6 +21,7 @@
 			setSistemas:setSistemas,
 			setMatricula:setMatricula,
 			takePic:takePic,
+			updateFoto:updateFoto,
 			zync:zync
 
 		}
@@ -36,7 +37,7 @@
 
 		function takePic() {	
 	      var options = {
-	        quality: 45,
+	        quality: 38,
 	        //50,
 	        destinationType: Camera.DestinationType.FILE_URI,
 	        sourceType: Camera.PictureSourceType.CAMERA,
@@ -78,17 +79,33 @@
 			}
 		}
 
-		function insertFoto ( idinspeccion,placa, FileEntry) {
-			var sync=0;
+		// function insertFoto ( idinspeccion,placa, FileEntry) {
+		function insertFoto (  FileEntry) {
+			// var sync=0;
 			var query=store.get('consulta').cInsertFotos;//consultaService.consultas.cPlacas;
-			var binding=[idinspeccion , placa, FileEntry.nativeURL, sync];
+			var binding=[FileEntry.idinspeccion , FileEntry.placa, FileEntry.path, FileEntry.sync];
 			return Sqlite.execute(query, binding)
                 .then(insertFotoComplete)
                 .catch(exception.catcher('insertar  foto sqlite ha fallado'));
 			
 			function insertFotoComplete (data) {					
 				logger.success('copiado sqlite', data)
-				return FileEntry				
+				angular.extend(FileEntry, {idfoto:data.insertId});
+				return FileEntry;				
+			}
+		}
+
+		function updateFoto (  FileEntry) {
+			var sync=1;
+			var query=store.get('consulta').cUpdateFoto;//consultaService.consultas.cPlacas;
+			var binding=[sync, FileEntry.idfoto];
+			return Sqlite.execute(query, binding)
+                .then(updatetFotoComplete)
+                .catch(exception.catcher('update  foto sqlite ha fallado'));
+			
+			function updatetFotoComplete (data) {					
+				logger.success('update sqlite', data)				
+				return FileEntry;				
 			}
 		}
 

@@ -5,13 +5,14 @@
         .module('app.fotos')
         .controller('Fotos', Fotos);
 
-    Fotos.$inject = ['$q', 'fotoService', 'logger','$ionicPopover','$ionicPopup', '$scope', '$stateParams' , 'promise', 'copyService', 'transferService' ];
+    Fotos.$inject = ['$q', 'fotoService', 'logger','$ionicPopover','$ionicPopup', '$scope', '$stateParams' , 'promise', 'copyService', 'transferService', '$filter' ];
 
-    function Fotos($q,fotoService,logger,$ionicPopover,$ionicPopup,$scope,$stateParams                      ,promise, copyService     , transferService) {
+    function Fotos($q,fotoService,logger,$ionicPopover,$ionicPopup,$scope,$stateParams                      ,promise, copyService     , transferService  , $filter) {
         // console.log(zumeroService, 'zumero service on fotos')
           /*jshint validthis: true */
           var vm = this;
           v=vm;
+          filter=$filter;
           vm.idinspeccion=$stateParams.idinspeccion;
           vm.placa=$stateParams.placa;
           logger.log(vm.placa);
@@ -40,6 +41,7 @@
           vm.sistemasPopup = sistemasPopup;
           vm.takePic=takePic;
           vm.title = 'Fotos';
+          vm.uploadFotos=uploadFotos;
           vm.zync=zync;
 
 
@@ -57,8 +59,7 @@
 
           function activate() {
               
-              var promises = [getAvengerCount(), 
-                              getAvengersCast(), 
+              var promises = [
                               getFotos(),
                               setPopOver(),
                               getMatriculasDictamenes(),
@@ -229,11 +230,14 @@
         .then(copyFile)
         .then(onCompleteCopyFile)
         .then(insertFoto)
-        .then(uploadFile)
-        .then(onCompleteUploadFile)
+        .then(onCompleteInsertFoto)
+        // .then(uploadFile)
+        // .then(onCompleteUploadFile)
+        // .then(updateFoto)
+        // .then(onCompleteUpdateFoto)
           function onCompleteTakePic (imageURI) {
-            logger.log(imageURI)
-            vm.fotos.push({path:imageURI});
+            // logger.log(imageURI)
+            // vm.fotos.push({path:imageURI});
             return imageURI;
           }
 
@@ -242,20 +246,44 @@
           }
 
           function onCompleteCopyFile (FileEntry) {
-            logger.info('copiado local', FileEntry)
+            logger.info('copiado local', FileEntry)          
             return FileEntry
           }
 
           function insertFoto (FileEntry) {
-            return fotoService.insertFoto(vm.idinspeccion, vm.placa, FileEntry)
+            angular.extend(FileEntry, {
+              idinspeccion: vm.idinspeccion,
+              placa: vm.placa,
+              path :FileEntry.nativeURL,
+              sync:0
+            });
+
+            // return fotoService.insertFoto(vm.idinspeccion, vm.placa, FileEntry)
+            return fotoService.insertFoto( FileEntry)
+          }
+
+          function onCompleteInsertFoto (FileEntry) {
+            var foto={idinspeccion:FileEntry.idinspeccion,placa:FileEntry.placa, path:FileEntry.path, idfoto:FileEntry.idfoto, sync:FileEntry.sync};
+            vm.fotos.push(foto);
+            return FileEntry;
           }
 
           function uploadFile (FileEntry) {
+            
             return transferService.upload(FileEntry);
           }
 
-          function onCompleteUploadFile (res) {
-            logger.info('subido ok', res)
+          function onCompleteUploadFile (FileEntry) {
+            logger.info('subido ok', FileEntry);
+            return FileEntry;
+          }
+
+          function updateFoto (FileEntry) {
+            return fotoService.updateFoto( FileEntry)
+          }
+
+          function onCompleteUpdateFoto (FileEntry) {
+            logger.info('update ok', FileEntry);
           }
 
 
@@ -273,6 +301,45 @@
           // console.log(zumeroService);
           // zumeroService.zync('ZYNC');
         }
+
+      function uploadFotos () {
+        var promises=[];
+        var fotos=$filter('filter')(vm.fotos, { sync: 0 }, true);
+        angular.forEach(fotos, function(foto, key){
+          promises.push(
+          transferService.upload(foto)
+          .then(onCompleteUploadFile)
+          .then(updateFoto)
+          .then(onCompleteUpdateFoto)
+          );
+
+          function onCompleteUploadFile (FileEntry) {
+            logger.info('subido ok', FileEntry);
+            return FileEntry;
+          }
+
+          function updateFoto (FileEntry) {
+            //todo para evaluar si es mejor hacer el update con idinspeccion y path, por si pasa que ya se sincronizoy  cambio el idfoto
+            return fotoService.updateFoto( FileEntry)
+          }
+
+          function onCompleteUpdateFoto (FileEntry) {
+            logger.info('update ok', FileEntry);
+            var foto = $filter('filter')(vm.fotos, { idfoto: FileEntry.idfoto }, true)[0];
+            logger.log(foto);
+            foto.sync=1; 
+            return FileEntry;  
+            } 
+              
+          
+        });   
+
+        return $q.all(promises).then(function  (data) {
+          logger.info('toas las fotos upload ok, ahora zync')
+          zync();
+        })     
+        
+      }
 
 
           //Cleanup the popover when we're done with it!
