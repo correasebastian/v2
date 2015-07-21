@@ -5,9 +5,9 @@
         .module('app.fotos')
         .controller('Fotos', Fotos);
 
-    Fotos.$inject = ['$q', 'fotoService', 'logger','$ionicPopover','$ionicPopup', '$scope', '$stateParams' , 'promise' ];
+    Fotos.$inject = ['$q', 'fotoService', 'logger','$ionicPopover','$ionicPopup', '$scope', '$stateParams' , 'promise', 'copyService' ];
 
-    function Fotos($q,fotoService,logger,$ionicPopover,$ionicPopup,$scope,$stateParams,promise) {
+    function Fotos($q,fotoService,logger,$ionicPopover,$ionicPopup,$scope,$stateParams                      ,promise, copyService) {
         // console.log(zumeroService, 'zumero service on fotos')
           /*jshint validthis: true */
           var vm = this;
@@ -30,13 +30,14 @@
             matriculasDictamen:null
           }
           vm.avengerCount = 0;
-          vm.avengers = [];
-          vm.title = 'Fotos';
+          vm.avengers = [];          
+          vm.closePopover=closePopover;          
+          vm.matriculaPopup =matriculaPopup;           
           vm.openPopover=openPopover;
-          vm.closePopover=closePopover;
-          vm.sistemasPopup = sistemasPopup;
-          vm.matriculaPopup =matriculaPopup; 
           vm.setSistemas=setSistemas;
+          vm.sistemasPopup = sistemasPopup;
+          vm.takePic=takePic;
+          vm.title = 'Fotos';
           vm.zync=zync;
 
 
@@ -217,34 +218,49 @@
           .then(function(data) {  
           console.log(data)                        
           });
-     
-            // if(!vm.dataCopy.sistemasDictamen){
-            
-            // }
-            // else{
-               
-            // }
-            
+
           };
 
-        function setMatricula(){   
-          fotoService.setMatricula()
-          .then(function(data) {  
-          console.log(data)                        
-          });
-          };
+      function takePic () {
+        fotoService.takePic()
+        .then(onCompleteTakePic)
+        .then(copyFile)
+        .then(onCompleteCopyFile)
+          function onCompleteTakePic (imageURI) {
+            logger.log(imageURI)
+            vm.fotos.push({path:imageURI});
+            return imageURI;
+          }
 
-        function zync () {
-            fotoService.zync();
-            // console.log(zumeroService);
-            // zumeroService.zync('ZYNC');
+          function copyFile (mediaURI) {
+            return copyService.copyFile(mediaURI)
+          }
+
+          function onCompleteCopyFile (FileEntry) {
+            logger.info('copiado local', FileEntry)
           }
 
 
+      }
+
+      function setMatricula(){   
+        fotoService.setMatricula()
+        .then(function(data) {  
+        console.log(data)                        
+        });
+        };
+
+      function zync () {
+          fotoService.zync();
+          // console.log(zumeroService);
+          // zumeroService.zync('ZYNC');
+        }
+
+
           //Cleanup the popover when we're done with it!
-          $scope.$on('$destroy', function() {
-            vm.popover.remove();
-          });
+      $scope.$on('$destroy', function() {
+        vm.popover.remove();
+      });
     
     }
 })();

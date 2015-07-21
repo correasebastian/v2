@@ -4,8 +4,8 @@
 	.module('app.fotos')    
 
 	.factory('fotoService', fotoService)
-	fotoService.$inject=['$filter','exception', '$http' , 'logger' , 'promise', '$q'  , 'store', 'Sqlite', 'zumeroService'];
-	function fotoService (  $filter , exception, $http, logger, promise,         $q    ,  store,   Sqlite, zumeroService) {
+	fotoService.$inject=['$filter','exception', '$http' , 'logger' , 'promise', '$q'  , 'store', 'Sqlite', 'zumeroService', '$cordovaCamera'];
+	function fotoService (  $filter , exception, $http, logger, promise,         $q    ,  store,   Sqlite, zumeroService  ,  $cordovaCamera) {
 
 		
 
@@ -19,7 +19,9 @@
 			getMatriculasDictamen:getMatriculasDictamen,
 			setSistemas:setSistemas,
 			setMatricula:setMatricula,
+			takePic:takePic,
 			zync:zync
+
 		}
 		
 		//return factory object
@@ -30,6 +32,28 @@
 			console.log(zumeroService)
 			zumeroService.zync('on fotos');
 		}
+
+		function takePic() {	
+	      var options = {
+	        quality: 45,
+	        //50,
+	        destinationType: Camera.DestinationType.FILE_URI,
+	        sourceType: Camera.PictureSourceType.CAMERA,
+	        // allowEdit: true,
+	        encodingType: Camera.EncodingType.JPEG,
+	        targetWidth: 1000,
+	        //importante con 100 se veia horrible
+	        targetHeight: 1000,
+	        // si le pongo true me crea problemas
+	        saveToPhotoAlbum: false
+	      };
+	      return $cordovaCamera.getPicture(options).then(onCompleteTakePic)
+	      .catch(exception.catcher('error tomando foto'));
+		      function onCompleteTakePic (imageURI) {	      	
+		        return imageURI;	      
+		      }
+		     
+	    };
 
 		function getAvengerCount () {
 			return promise.emulate('getAvengerCount','',2000);			

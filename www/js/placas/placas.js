@@ -36,7 +36,7 @@
            }
 
           function activate() {
-              var promises = [getAvengerCount(), getAvengersCast(), getPlacas(),identifyUser()];
+              var promises = [ getPlacas(),identifyUser()];
   //            Using a resolver on all routes or placaService.ready in every controller
   //            return placaService.ready(promises).then(function(){
               return $q.all(promises).then(function(res) {
