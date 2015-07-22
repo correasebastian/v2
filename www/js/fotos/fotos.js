@@ -70,6 +70,7 @@
     //            Using a resolver on all routes or Fotoservice.ready in every controller
     //            return Fotoservice.ready(promises).then(function(){
       return $q.all(promises).then(function(res) {
+        setData();     
         logger.info('Activated Fotos View', res);
       });
     }
@@ -109,9 +110,10 @@
               // TODO: segun el codigo encontrar el objeto en el array usando un filter puede ser
               
               if(!data){
+                vm.data.sistemasDictamen =data;                
                 return data;
               }
-              var sistemasDictamen=$filter('filter')(vm.sistemasDictamenes, { idsistemasdictamen: data.idsistemasdictamen || null }, true);
+              var sistemasDictamen=$filter('filter')(vm.sistemasDictamenes, { idsistemasdictamen: data.idsistemasdictamen }, true);
               vm.data.sistemasDictamen = sistemasDictamen[0];
               return vm.data.sistemasDictamen;
 
@@ -122,7 +124,13 @@
     function getMatriculasDictamen() {
       return fotoService.getMatriculasDictamen(vm.idinspeccion).then(function(data) {
               // TODO: segun el codigo encontrar el objeto en el array usando un filter puede ser
-              vm.data.matriculasDictamen = data;
+              
+              if(!data){
+                vm.data.matriculasDictamen=data;
+                return data;
+              }
+              var matriculaDictamen=$filter('filter')(vm.matriculasDictamenes, { idmatriculadictamen: data.idmatriculadictamen }, true)[0];
+              vm.data.matriculasDictamen = matriculaDictamen;
               return vm.data.matriculasDictamen;
             });
     }
@@ -147,7 +155,8 @@
         {
           text: 'Cancel',
           onTap: function(e){
-            vm.data.sistemasDictamen=vm.dataCopy.sistemasDictamen;                
+            resetData()
+            // vm.data.sistemasDictamen=vm.dataCopy.sistemasDictamen;                
           }
         },
         {
@@ -164,7 +173,7 @@
         ]
       });
       myprompt.then(function (placa) {
-       vm.closePopover();          
+       // vm.closePopover();          
        if (placa ) {
         vm.setSistemas();
       } 
@@ -183,8 +192,9 @@
               {
                 text: 'Cancel',
                 onTap: function(e){
-                  vm.data.matriculasDictamen=vm.dataCopy.matriculasDictamen;
-                  vm.closePopover();
+                  resetData()
+                  // vm.data.matriculasDictamen=vm.dataCopy.matriculasDictamen;
+                  // vm.closePopover();
                 }
               },
               {
@@ -195,7 +205,7 @@
                     e.preventDefault();
                     
                   } else {
-                    vm.closePopover();
+                    // vm.closePopover();
                     return true;
                   }
                 }
@@ -203,23 +213,42 @@
               ]
             });
      myprompt.then(function (placa) {
-       vm.closePopover();          
+       // vm.closePopover();          
        if (placa ) {
         setMatricula();
       } 
     });
    }
 
+   function resetData(){
+      if(vm.dataCopy.matriculasDictamen){
+      var matriculaDictamen=$filter('filter')(vm.matriculasDictamenes, { idmatriculadictamen: vm.dataCopy.matriculasDictamen.idmatriculadictamen }, true)[0];
+      vm.data.matriculasDictamen = matriculaDictamen;
+      }
+      if(vm.dataCopy.sistemasDictamen){
+        
+      var sistemasDictamen=$filter('filter')(vm.sistemasDictamenes, { idsistemasdictamen: vm.dataCopy.sistemasDictamen.idsistemasdictamen }, true)[0];
+      vm.data.sistemasDictamen = sistemasDictamen;
+      }
+
+   }
+
+   function setData () {
+      vm.dataCopy= angular.copy(vm.data);
+   }
+
    function setSistemas(){
     if(vm.dataCopy.sistemasDictamen){
       fotoService.updateSistemas(vm.idinspeccion,vm.data.sistemasDictamen)
-      .then(function(data) {  
+      .then(function(data) { 
+      setData() 
       console.log(data) 
        });
 
     }else{
       fotoService.setSistemas(vm.idinspeccion,vm.data.sistemasDictamen)
       .then(function(data) {  
+        setData()
       console.log(data)                        
     });
 
@@ -233,11 +262,13 @@
       fotoService.updateMatricula(vm.idinspeccion,vm.data.matriculasDictamen)
       .then(function(data) {  
       console.log(data) 
+      setData()
        });
 
     }else{
       fotoService.setMatricula(vm.idinspeccion,vm.data.matriculasDictamen)
       .then(function(data) {  
+        setData()
       console.log(data)                        
       });
 
@@ -338,26 +369,27 @@
               function updateFoto (FileEntry) {
               //todo para evaluar si es mejor hacer el update con idinspeccion y path, por si pasa que ya se sincronizoy  cambio el idfoto
               return fotoService.updateFoto( FileEntry)
-            }
+              }
 
-            function onCompleteUpdateFoto (FileEntry) {
+              function onCompleteUpdateFoto (FileEntry) {
               logger.info('update ok', FileEntry);
               var foto = $filter('filter')(vm.fotos, { idfoto: FileEntry.idfoto }, true)[0];
               logger.log(foto);
               foto.sync=1; 
               return FileEntry;  
-            } 
-
+              } 
             
-              });   
+            });
 
-              return $q.all(promises).then(function  (data) {
-                logger.info('toas las fotos upload ok, ahora zync')
-                return zync();
-              })
-              .finally(function(){ 
-                widgetsService.hideSpinner()
-              });    
+            function allPromisesComplete (data) {
+                console.log(data)
+                 return zync();
+               }
+            function finallyPromises (argument) {
+                 widgetsService.hideSpinner();
+               }   
+
+              return $q.all(promises).then(allPromisesComplete).finally(finallyPromises);    
 
             }
 

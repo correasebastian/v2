@@ -7,8 +7,9 @@
       </a>
     </span>
   </div>
-  <ion-content>
+  <ion-content >
 <!-- <span>{{PCtrl}}</span> -->
+<div style="height: 50px"></div>
 
 <ion-list>
   <ion-item class="item-icon-right" ng-repeat="placa in PCtrl.placas" href="#/tab/chats/{{placa.idinspeccion}}/{{placa.placa}}">
@@ -17,12 +18,12 @@
   </ion-item>
 </ion-list>
 
-<button class="button button-block button-dark" ng-click="PCtrl.identifyUser()">
+<!-- <button class="button button-block button-dark" ng-click="PCtrl.identifyUser()">
   Identify a user
 </button>
 
 <button class="button button-block button-dark" ng-click="PCtrl.insertPLaca()">
   InsertPlaca
-</button>
+</button> -->
 </ion-content>
 </ion-view>

@@ -28,6 +28,7 @@
          }
          
          function execute (query, binding) {
+            console.log(query, binding);
              return $cordovaSQLite.execute(service.db,query, binding); 
          }
 

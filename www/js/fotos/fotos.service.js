@@ -98,7 +98,7 @@
                 .catch(exception.catcher('update  foto sqlite ha fallado'));
 			
 			function updatetFotoComplete (data) {					
-				logger.success('update sqlite', data)				
+				logger.success('update sqlite', FileEntry.idfoto, data)				
 				return FileEntry;				
 			}
 		}
