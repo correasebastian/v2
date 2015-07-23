@@ -44,7 +44,7 @@
                      var interval=$interval(
                         function  () {
                         n +=1;
-                        logger.info(n);
+                        // logger.info(n);
                         if (store.get('consulta') && Sqlite.db){                                        
                                 $interval.cancel(interval);
                                  deferred.resolve(true);

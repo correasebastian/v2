@@ -14,6 +14,7 @@
 			getFotos:getFotos,
 			getSistemasDictamenes:getSistemasDictamenes,
 			getMatriculasDictamenes:getMatriculasDictamenes,
+			getNames:getNames,
 			getSistemasDictamen:getSistemasDictamen,
 			getMatriculasDictamen:getMatriculasDictamen,
 			insertFoto:insertFoto,
@@ -32,7 +33,7 @@
 
 		//implementacion
 		function zync () {
-			console.log(zumeroService)
+			// console.log(zumeroService)
 			zumeroService.zync('on fotos');
 		}
 
@@ -73,11 +74,25 @@
 			}
 		}
 
+		function getNames () {
+			var query=store.get('consulta').cGetNameFotosByRol;//consultaService.consultas.cPlacas;
+			var binding=[1];
+			return Sqlite.execute(query, binding)
+                .then(getNamesComplete)
+                .catch(exception.catcher('llamado para obtener nombres de fotos ha fallado'));
+			
+			function getNamesComplete (data) {					
+				var array=Sqlite.rtnArray(data);
+				return array				
+			}
+			
+		}
+
 		// function insertFoto ( idinspeccion,placa, FileEntry) {
 		function insertFoto (  FileEntry) {
 			// var sync=0;
 			var query=store.get('consulta').cInsertFotos;//consultaService.consultas.cPlacas;
-			var binding=[FileEntry.idinspeccion , FileEntry.placa, FileEntry.path, FileEntry.sync];
+			var binding=[FileEntry.idinspeccion , FileEntry.placa, FileEntry.path, FileEntry.sync, FileEntry.idtipo.idTipoFoto];
 			return Sqlite.execute(query, binding)
                 .then(insertFotoComplete)
                 .catch(exception.catcher('insertar  foto sqlite ha fallado'));
@@ -97,7 +112,8 @@
                 .then(updatetFotoComplete)
                 .catch(exception.catcher('update  foto sqlite ha fallado'));
 			
-			function updatetFotoComplete (data) {					
+			function updatetFotoComplete (data) {
+				console.log(data)					
 				logger.success('update sqlite', FileEntry.idfoto, data)				
 				return FileEntry;				
 			}

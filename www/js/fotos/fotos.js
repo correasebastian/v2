@@ -5,14 +5,14 @@
     .module('app.fotos')
     .controller('Fotos', Fotos);
 
-    Fotos.$inject = ['$q', 'fotoService', 'logger','$ionicPopover','$ionicPopup', '$scope', '$stateParams' , 'promise', 'copyService', 'transferService', '$filter', 'widgetsService' ];
+    Fotos.$inject = ['$q', 'fotoService', 'logger','$ionicPopover','$ionicPopup', '$scope', '$stateParams' , 'promise', 'copyService', 'transferService', 'filterService', 'widgetsService' ,'$ionicModal' ];
 
-    function Fotos($q,fotoService,logger,$ionicPopover,$ionicPopup,$scope,$stateParams                      ,promise, copyService     , transferService  , $filter  ,  widgetsService) {
+    function Fotos($q,fotoService,logger,$ionicPopover,$ionicPopup,$scope,$stateParams                      ,promise, copyService     , transferService  , filterService  ,  widgetsService  , $ionicModal) {
           // console.log(zumeroService, 'zumero service on fotos')
           /*jshint validthis: true */
           var vm = this;
           v=vm;
-          filter=$filter;
+          // filter=$filter;
           vm.idinspeccion=$stateParams.idinspeccion;
           vm.placa=$stateParams.placa;
           logger.log(vm.placa);
@@ -33,9 +33,14 @@
             matriculasDictamen:null
           }
 
-          vm.closePopover=closePopover;          
-          vm.matriculaPopup =matriculaPopup;           
+          vm.closePopover=closePopover;
+          vm.closeModal =closeModal;  
+          vm.fotosFalt=[];       
+          vm.matriculaPopup =matriculaPopup;
+          vm.names=[];           
           vm.openPopover=openPopover;
+          vm.openModal=openModal;
+          vm.setIdTipoFoto=setIdTipoFoto;
           vm.setSistemas=setSistemas;
           vm.sistemasPopup = sistemasPopup;
           vm.takePic=takePic;
@@ -64,7 +69,9 @@
       getMatriculasDictamen(),
       getSistemasDictamen(),
       getFotos(),
-      setPopOver()
+      getNames(),
+      setPopOver(),
+      setModal()
       
       ];
     //            Using a resolver on all routes or Fotoservice.ready in every controller
@@ -81,6 +88,53 @@
         vm.fotos = data;
         return vm.fotos;
       });
+    }
+
+    function setIdTipoFoto(tipoFoto) {        
+        vm.idtipo = tipoFoto;
+        closeModal();
+        takePic();
+    };
+
+    function getNames () {
+      
+        return fotoService.getNames().then(getNamesComplete);
+
+         function getNamesComplete (data) {
+          vm.names = data;            
+          angular.copy(vm.names, vm.fotosFalt);
+          angular.forEach(vm.fotos, function (obj, key) {
+          removeFromfaltantes(obj);
+          });
+   
+          return vm.names;
+        }
+
+    }
+
+    function removeFromfaltantes (obj) {
+      var filterObj = { idTipoFoto: obj.idtipo };
+      filterService.rmObjFromArray(vm.fotosFalt, filterObj);
+    }
+
+
+    function setModal (argument) {
+      return $ionicModal.fromTemplateUrl('js/fotos/fotoModal.html', {
+        scope: $scope,
+        animation: 'slide-in-up'
+      }).then(completeModal);
+
+      function completeModal (modal) {
+        vm.modal = modal;   
+        return vm.modal;     
+      }
+    }
+
+    function openModal () {
+      vm.modal.show();
+    }
+    function closeModal  () {
+      vm.modal.hide()
     }
 
     function setPopOver () {
@@ -113,8 +167,8 @@
                 vm.data.sistemasDictamen =data;                
                 return data;
               }
-              var sistemasDictamen=$filter('filter')(vm.sistemasDictamenes, { idsistemasdictamen: data.idsistemasdictamen }, true);
-              vm.data.sistemasDictamen = sistemasDictamen[0];
+              var obj={ idsistemasdictamen: data.idsistemasdictamen };
+              vm.data.sistemasDictamen = filterService.rtnFirstObject(vm.sistemasDictamenes, obj)
               return vm.data.sistemasDictamen;
 
 
@@ -129,8 +183,8 @@
                 vm.data.matriculasDictamen=data;
                 return data;
               }
-              var matriculaDictamen=$filter('filter')(vm.matriculasDictamenes, { idmatriculadictamen: data.idmatriculadictamen }, true)[0];
-              vm.data.matriculasDictamen = matriculaDictamen;
+              var obj={ idmatriculadictamen: data.idmatriculadictamen };              
+              vm.data.matriculasDictamen = filterService.rtnFirstObject(vm.matriculasDictamenes, obj)
               return vm.data.matriculasDictamen;
             });
     }
@@ -177,11 +231,11 @@
        if (placa ) {
         vm.setSistemas();
       } 
-    });
+      });
     }
 
 
-    function matriculaPopup () {
+  function matriculaPopup () {
      vm.dataCopy.matriculasDictamen= angular.copy(vm.data.matriculasDictamen);
      var myprompt = $ionicPopup.prompt({
       title: 'Matricula',
@@ -222,13 +276,12 @@
 
    function resetData(){
       if(vm.dataCopy.matriculasDictamen){
-      var matriculaDictamen=$filter('filter')(vm.matriculasDictamenes, { idmatriculadictamen: vm.dataCopy.matriculasDictamen.idmatriculadictamen }, true)[0];
-      vm.data.matriculasDictamen = matriculaDictamen;
+      var obj= { idmatriculadictamen: vm.dataCopy.matriculasDictamen.idmatriculadictamen }      
+      vm.data.matriculasDictamen =  filterService.rtnFirstObject(vm.matriculasDictamenes, obj)
       }
       if(vm.dataCopy.sistemasDictamen){
-        
-      var sistemasDictamen=$filter('filter')(vm.sistemasDictamenes, { idsistemasdictamen: vm.dataCopy.sistemasDictamen.idsistemasdictamen }, true)[0];
-      vm.data.sistemasDictamen = sistemasDictamen;
+      var obj=  { idsistemasdictamen: vm.dataCopy.sistemasDictamen.idsistemasdictamen }      
+      vm.data.sistemasDictamen = filterService.rtnFirstObject(vm.sistemasDictamenes, obj)
       }
 
    }
@@ -238,19 +291,19 @@
    }
 
    function setSistemas(){
-    if(vm.dataCopy.sistemasDictamen){
-      fotoService.updateSistemas(vm.idinspeccion,vm.data.sistemasDictamen)
-      .then(function(data) { 
-      setData() 
-      console.log(data) 
-       });
+      if(vm.dataCopy.sistemasDictamen){
+        fotoService.updateSistemas(vm.idinspeccion,vm.data.sistemasDictamen)
+        .then(function(data) { 
+        setData() 
+        console.log(data) 
+         });
 
-    }else{
-      fotoService.setSistemas(vm.idinspeccion,vm.data.sistemasDictamen)
-      .then(function(data) {  
-        setData()
-      console.log(data)                        
-    });
+      }else{
+        fotoService.setSistemas(vm.idinspeccion,vm.data.sistemasDictamen)
+        .then(function(data) {  
+          setData()
+        console.log(data)                        
+      });
 
     }
     
@@ -298,7 +351,7 @@
             }
 
             function onCompleteCopyFile (FileEntry) {
-              logger.info('copiado local', FileEntry)          
+              // logger.info('copiado local', FileEntry)          
               return FileEntry
             }
 
@@ -307,7 +360,8 @@
                 idinspeccion: vm.idinspeccion,
                 placa: vm.placa,
                 path :FileEntry.nativeURL,
-                sync:0
+                sync:0,
+                idtipo:vm.idtipo
               });
 
               // return fotoService.insertFoto(vm.idinspeccion, vm.placa, FileEntry)
@@ -315,8 +369,9 @@
             }
 
             function onCompleteInsertFoto (FileEntry) {
-              var foto={idinspeccion:FileEntry.idinspeccion,placa:FileEntry.placa, path:FileEntry.path, idfoto:FileEntry.idfoto, sync:FileEntry.sync};
+              var foto={idinspeccion:FileEntry.idinspeccion,placa:FileEntry.placa, path:FileEntry.path, idfoto:FileEntry.idfoto, sync:FileEntry.sync, idtipo: FileEntry.idtipo.idTipoFoto};
               vm.fotos.push(foto);
+              removeFromfaltantes(foto)
               return FileEntry;
             }
 
@@ -326,7 +381,7 @@
             }
 
             function onCompleteUploadFile (FileEntry) {
-              logger.info('subido ok', FileEntry);
+              // logger.info('subido ok', FileEntry);
               return FileEntry;
             }
 
@@ -335,7 +390,7 @@
             }
 
             function onCompleteUpdateFoto (FileEntry) {
-              logger.info('update ok', FileEntry);
+              // logger.info('update ok', FileEntry);
             }
 
 
@@ -352,7 +407,8 @@
           function uploadFotos () {
             widgetsService.showSpinner();
             var promises=[];
-            var fotos=$filter('filter')(vm.fotos, { sync: 0 }, true);
+            var obj ={ sync: 0 }
+            var fotos=filterService.rtnArray(vm.fotos, obj);
             angular.forEach(fotos, function(foto, key){
               promises.push(
                 transferService.upload(foto)
@@ -362,7 +418,7 @@
                 );
 
               function onCompleteUploadFile (FileEntry) {
-                logger.info('subido ok', FileEntry);
+                // logger.info('subido ok', FileEntry);
                 return FileEntry;
               }
 
@@ -372,8 +428,9 @@
               }
 
               function onCompleteUpdateFoto (FileEntry) {
-              logger.info('update ok', FileEntry);
-              var foto = $filter('filter')(vm.fotos, { idfoto: FileEntry.idfoto }, true)[0];
+              // logger.info('update ok', FileEntry);
+              var obj={ idfoto: FileEntry.idfoto }
+              var foto = filterService.rtnFirstObject(vm.fotos, obj);
               logger.log(foto);
               foto.sync=1; 
               return FileEntry;  

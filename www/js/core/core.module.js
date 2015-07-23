@@ -13,6 +13,7 @@
         'blocks.promise', 'blocks.push',
         'blocks.sqlite','blocks.zumero','blocks.sendPush','blocks.copy',
         'blocks.transfer','blocks.identify','block.widgets','blocks.moment',
+        'blocks.filter',
         // , 'blocks.router'
 
         /*
