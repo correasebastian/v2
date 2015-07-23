@@ -26,7 +26,7 @@ ion-content {
   z-index: 9999;
 }
 .fbCamera{
-  bottom: 80px;
+  bottom: 130px;
   background:  rgb(72, 239, 53);
 }
 .fbVideoCompress{
@@ -34,7 +34,7 @@ ion-content {
   background:  rgb(72, 239, 53);
 }
 .fbAdd{
-  bottom: 12px;
+  bottom: 55px;
   background:  yellow;
 }
 
@@ -53,7 +53,7 @@ ion-content {
   color: $light;
 }
 
-.platform-android .float-button {
+/*.platform-android .float-button {
   -webkit-border-radius: 50%;
   -moz-border-radius: 50%;
   border-radius: 50%;
@@ -62,7 +62,7 @@ ion-content {
   font-size: 30px;
   background: $assertive;
   position: absolute;
-  /*bottom: 20px;*/
+  
   right: 20px;
   z-index: 9999;
 }
@@ -79,7 +79,7 @@ ion-content {
   bottom: 60px;
   right: 20px;
   z-index: 9999;
-}
+}*/
 
 .my-icon{
     font-size: 30px;
@@ -104,4 +104,16 @@ SPINNER*/
   height: 28px;
   stroke: #999;
   fill: #FFD438;
+}
+
+
+
+/*padding top 50*/
+
+.pt50{
+  padding-top: 50px;
+}
+
+.pt150{
+  padding-top: 150px;
 }

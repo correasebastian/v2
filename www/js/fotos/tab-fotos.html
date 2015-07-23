@@ -20,9 +20,10 @@
     </ion-nav-buttons>
     <!--header-shrink scroll-event-interval="5" -->
   <ion-content  >
-  <div style="height: 60px"></div>
+  <div style="height: 20px"></div>
+<!--   <div style="height: 60px"></div> -->
 <!-- <span>{{FCtrl}}</span> -->
-<div class="list card" ng-repeat="foto in FCtrl.fotos | orderBy : '-idfoto'">
+<div class="list card" ng-repeat="foto in FCtrl.fotos | orderBy : '-idfoto'" class="pt50">
 
   <!-- <div class="item item-avatar">
     <img ng-src="{{foto.path}}">

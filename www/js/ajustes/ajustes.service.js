@@ -3,22 +3,20 @@
 
     angular
   
-    .module('app.consulta')  
-    .factory('consultaService', consultaService)
+    .module('app.ajustes')  
+    .factory('ajustesService', ajustesService)
 
-    consultaService.$inject=['Sqlite', 'logger','exception', 'store']
+    ajustesService.$inject=[ 'logger','exception']
 
-    function consultaService(Sqlite, logger   , exception  ,  store){
+    function ajustesService( logger, exception){
 
       // var consultas=null;
-      var consultaFactory= {
-      reset:reset,
-      setConsulta:setConsulta ,
-      consultas:null    
+      var Factory= {
+      setConsulta:setConsulta    
       }
     
     //return factory object
-    return consultaFactory;
+    return Factory;
 
       function setConsulta () {
         var query='SELECT *  FROM [consultasSqlite]';
@@ -35,20 +33,6 @@
               return consultaFactory.consultas;
               // return setProspects(array);              
             }         
-      }
-
-      function reset () {
-        if(store.get('consulta')) {
-          store.remove('consulta') ;
-        } 
-
-        setConsulta().then(onCompleteSetConsulta)
-
-        function onCompleteSetConsulta (data) {
-          store.set('consulta', data)
-          logger.success('reset  ok');
-        }
-
       }
     }
 })(); 

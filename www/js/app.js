@@ -10,9 +10,11 @@ var filter=null;
   'app.placas',
   'app.fotos',  
   'app.consulta', 
+  'app.ajustes'
  ])
 
-.config(['$ionicAppProvider', function($ionicAppProvider) {
+.config(['$ionicAppProvider','$ionicConfigProvider', function($ionicAppProvider, $ionicConfigProvider) {
+      $ionicConfigProvider.tabs.position('bottom');
       // Identify app
       $ionicAppProvider.identify({
         // The App ID (from apps.ionic.io) for the server
@@ -90,8 +92,8 @@ var filter=null;
     url: '/account',
     views: {
       'tab-account': {
-        templateUrl: 'templates/tab-account.html',
-        controller: 'AccountCtrl'
+        templateUrl: 'js/ajustes/tab-account.html',
+        controller: 'Ajustes as ACtrl'
       }
     }
   });
