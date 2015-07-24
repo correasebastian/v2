@@ -37,7 +37,7 @@
         function existsConsulta () {
             var deferred= $q.defer();
             var n=1;
-              if (store.get('consulta') && Sqlite.db){
+              if (store.get('consulta') && store.get('dataInit') && Sqlite.db){
                         deferred.resolve(true);
                     }
                 else {

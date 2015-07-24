@@ -13,7 +13,8 @@
       // var consultas=null;
       var initURL='http://190.145.39.139/suralocalapi'
       var Factory= {
-      setData:setData    
+      setData:setData ,
+      resetDataInit:resetDataInit   
       }
     
     //return factory object
@@ -26,16 +27,22 @@
 
             function getDataInitComplete(data) {
               console.log(data);
-              if (data && data.data ){
-                var obj=data.data[0];
-                angular.extend(obj, {zfile:'zzdbfile'})
+               var z={zfile:'zzdbfile'}
+              if (data && data.data && data.data[0] ){               
+                var obj={idrolsura: data.data[0].idrolsura}
+                angular.extend(obj,z )
                 logger.success('dataInit ok'); 
                 store.set('dataInit', obj); 
               }
                           
-              return true
+              return z
                            
             }         
+      }
+
+      function resetDataInit () {
+        store.remove('dataInit');
+        return setData();
       }
     }
 })(); 

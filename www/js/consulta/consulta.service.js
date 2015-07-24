@@ -12,7 +12,7 @@
 
       // var consultas=null;
       var consultaFactory= {
-      reset:reset,
+      resetConsulta:resetConsulta,
       setConsulta:setConsulta ,
       consultas:null    
       }
@@ -37,7 +37,7 @@
             }         
       }
 
-      function reset () {
+      function resetConsulta () {
         if(store.get('consulta')) {
           store.remove('consulta') ;
         } 

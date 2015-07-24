@@ -5,17 +5,28 @@
         .module('app.ajustes')
         .controller('Ajustes', Ajustes);
 
-    Ajustes.$inject = ['ajustesService','consultaService'];
+    Ajustes.$inject = ['ajustesService','consultaService' , 'dataInitService' , 'zumeroService', 'Sqlite'];
 
-    function Ajustes(ajustesService    ,  consultaService){
+    function Ajustes(ajustesService    ,  consultaService  , dataInitService  ,  zumeroService  , Sqlite){
     	var vm=this;
-    	vm.reset=reset;
+    	vm.resetConsulta=resetConsulta;
+        vm.resetDataInit=resetDataInit;
 
     	//oimplementation
 
-    	function reset () {
-    		consultaService.reset();    		
+    	function resetConsulta () {
+    		consultaService.resetConsulta();    		
     	}
+
+        function resetDataInit () {
+            dataInitService.resetDataInit()
+            .then(onCompleteReset)
+
+            function onCompleteReset (data) {
+                zumeroService.setZumero(data.zfile);            
+                Sqlite.setDb(zumeroService.dbfileComplete);
+            }
+        }
 
 
     }

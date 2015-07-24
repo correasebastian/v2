@@ -76,7 +76,7 @@
 
 		function getNames () {
 			var query=store.get('consulta').cGetNameFotosByRol;//consultaService.consultas.cPlacas;
-			var binding=[1];
+			var binding=[store.get('dataInit').idrolsura];
 			return Sqlite.execute(query, binding)
                 .then(getNamesComplete)
                 .catch(exception.catcher('llamado para obtener nombres de fotos ha fallado'));
