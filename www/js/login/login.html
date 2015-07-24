@@ -1,0 +1,35 @@
+<ion-view view-title="Sign-In">
+        <ion-content>
+        <!--   <div class="list">
+            <label class="item item-input">
+              <span class="input-label">Username</span>
+              <input type="text" ng-model="user.username">
+            </label>
+            <label class="item item-input">
+              <span class="input-label">Password</span>
+              <input type="password" ng-model="user.password">
+            </label>
+          </div>
+          <div class="padding">
+            <button class="button button-block button-positive" ng-click="signIn(user)">
+              Sign-In
+            </button>
+            <p class="text-center">
+              <a href="#/forgot-password">Forgot password</a>
+            </p>
+          </div> -->
+           <div style="height: 100px"></div>
+           <div class="list list-inset">
+            <label class="item item-input">
+              <input type="text" placeholder="Email" data-ng-model="LCtrl.loginData.userName" required autofocus>
+            </label>
+            <label class="item item-input">
+              <input type="password" placeholder="Contraseña"  data-ng-model="LCtrl.loginData.password" required>
+            </label>
+           <button type="submit"  class="button button-block button-positive" ng-click="LCtrl.login()">ingresar</button>
+            <div data-ng-hide="message == ''" class="alert alert-danger">
+                {{LCtrl.message}}
+            </div>
+          </div>
+        </ion-content>
+      </ion-view>

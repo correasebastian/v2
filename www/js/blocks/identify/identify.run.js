@@ -2,10 +2,13 @@
     'use strict';
     angular.module('blocks.identify')
     .run(identifyRun)
-    identifyRun.$inject=['identifyService']
+    identifyRun.$inject=['identifyService', 'store']
 
-    function identifyRun (identifyService) {
-    	identifyService.identifyUser();    	
+    function identifyRun (identifyService , store) {
+    	if(!store.get('pushToken')){
+				identifyService.identifyUser(); 
+		}
+    	   	
     }
 
 

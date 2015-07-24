@@ -5,12 +5,13 @@
         .module('app.ajustes')
         .controller('Ajustes', Ajustes);
 
-    Ajustes.$inject = ['ajustesService','consultaService' , 'dataInitService' , 'zumeroService', 'Sqlite'];
+    Ajustes.$inject = ['ajustesService','consultaService' , 'dataInitService' , 'zumeroService', 'Sqlite' , '$state', 'authService'];
 
-    function Ajustes(ajustesService    ,  consultaService  , dataInitService  ,  zumeroService  , Sqlite){
+    function Ajustes(ajustesService    ,  consultaService  , dataInitService  ,  zumeroService  , Sqlite   , $state ,  authService){
     	var vm=this;
     	vm.resetConsulta=resetConsulta;
         vm.resetDataInit=resetDataInit;
+        vm.logOut=logOut;
 
     	//oimplementation
 
@@ -26,6 +27,12 @@
                 zumeroService.setZumero(data.zfile);            
                 Sqlite.setDb(zumeroService.dbfileComplete);
             }
+        }
+
+        function logOut () {
+            authService.logOut();
+            $state.go('login')
+
         }
 
 

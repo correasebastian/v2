@@ -50,12 +50,14 @@
 
         // Identify your user with the Ionic User Service
        return  $ionicUser.identify(user)
-       .then(function(){
+       .then(onCompleteIdentify)
+       .catch(exception.catcher('error identificando con ionic')) ;
+
+       function onCompleteIdentify(){
           console.log('user.name' , user.name, 'user_id', user.user_id)
             identifyFactory.identified = true;
             return identifyFactory.identified;                    
-        })
-       .catch(exception.catcher('error identificando con ionic')) ;
+        }
       };
     }
 

@@ -10,7 +10,8 @@ var filter=null;
   'app.placas',
   'app.fotos',  
   'app.consulta', 
-  'app.ajustes'
+  'app.ajustes',
+  'app.login'
  ])
 
 .config(['$ionicAppProvider','$ionicConfigProvider', function($ionicAppProvider, $ionicConfigProvider) {
@@ -28,14 +29,16 @@ var filter=null;
         gcm_id: '237781718403'
       });
     }])
-
-
-
-
 .config(function($stateProvider, $urlRouterProvider) {
 
 
   $stateProvider
+
+  .state('login', {
+    url: '/login',
+    templateUrl: 'js/login/login.html',
+    controller: 'Login as LCtrl'
+  })
 
   // setup an abstract state for the tabs directive
     .state('tab', {
@@ -98,10 +101,54 @@ var filter=null;
     }
   });
 
+  $stateProvider.state("otherwise", {
+            url: "*path",
+            template: "",
+            controller: [
+                      '$state',
+              function($state) {
+                $state.go('login')
+              }]
+        });
+
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/tab/dash');
+  // $urlRouterProvider.otherwise('/login');
 
 })
+.run( ['store', '$rootScope', 'logger', '$timeout', '$state', function(store, $rootScope, logger , $timeout , $state) {
+
+   $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
+      
+      // console.log(event, toState, toParams, fromState, fromParams);
+      var authData = store.get('authorizationData');
+      // console.log(authData, toState.name )
+      if (toState.name === 'login') { 
+          // logger.info('state signing')  
+          
+           if (!authData ){
+            // logger.info('no identificado  state signing')  
+              return;
+           }
+           else{
+            event.preventDefault();
+            // logger.info('hacia palcas  state signing')
+            $timeout(function () {                  
+              $state.go('tab.dash');  //event.preventDefault(); //Nice addition! Can't do any redirect when it's called though
+            }, 0);
+
+           }
+      }
+      // console.log(authData, momentService.diffNow(authData.exp, 'm'), '> -60');
+      if (!authData ) {
+        event.preventDefault();
+        $timeout(function () {
+          // console.log('redirect'); 
+          $state.go('login');  //event.preventDefault(); //Nice addition! Can't do any redirect when it's called though
+        }, 0);
+      }
+    });
+  
+}])
 
 
 
