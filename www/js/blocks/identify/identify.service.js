@@ -5,8 +5,8 @@
   
     .module('blocks.identify')  
     .factory('identifyService', identifyService)
-  identifyService.$inject=['$filter','exception', '$http' , 'logger' , 'promise','$ionicUser', '$ionicPush'];
-  function identifyService (  $filter , exception, $http, logger, promise, $ionicUser, $ionicPush) {
+  identifyService.$inject=['$filter','exception', '$http' , 'logger' , 'promise','$ionicUser', '$ionicPush' , 'pushService'];
+  function identifyService (  $filter , exception, $http,    logger,     promise, $ionicUser, $ionicPush    , pushService) {
 
     // var identified=false;
     // var token=null;
@@ -54,6 +54,7 @@
        .catch(exception.catcher('error identificando con ionic')) ;
 
        function onCompleteIdentify(){
+          pushService.registerEventTokenReceived();
           console.log('user.name' , user.name, 'user_id', user.user_id)
             identifyFactory.identified = true;
             return identifyFactory.identified;                    

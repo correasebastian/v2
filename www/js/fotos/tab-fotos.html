@@ -1,5 +1,5 @@
 <ion-view view-title="{{FCtrl.placa}}">
-<div class="float-button fbCamera">
+<div class="float-button fbCamera" ng-hide="FCtrl.fotosFalt.length<1">
   <span class="height-fix">   
     <a on-touch="FCtrl.openModal()"  class="button content button-icon ">    
       <i class="ion-camera my-icon"> </i>

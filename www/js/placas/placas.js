@@ -1,3 +1,5 @@
+
+var pl=null;
 (function() {
     'use strict';
 
@@ -13,6 +15,7 @@
         console.log(zumeroService, 'zumero service on placas')
         /*jshint validthis: true */
         var vm = this;
+        pl=vm;
 
         vm.news = {
             title: 'Marvel Avengers',

@@ -6,9 +6,9 @@
     .module('blocks.auth')  
     .factory('authService', authService)
 
-    authService.$inject=[ 'logger','exception', 'ngAuthSettings', 'store', '$http']
+    authService.$inject=[ 'logger','exception', 'ngAuthSettings', 'store', '$http' ,'pushService']
 
-    function authService( logger , exception ,  ngAuthSettings  ,  store  , $http){
+    function authService( logger , exception ,  ngAuthSettings  ,  store  , $http , pushService){
 
       var serviceBase = ngAuthSettings.apiServiceBaseUri;     
       var _authentication = {
@@ -67,8 +67,17 @@
 
     }
 
-    function logOut (argument) {
+    function logOut (argument) {     
+
+      pushService.removePushToken()
+      .then(onCompleteRemovePush)
+        function onCompleteRemovePush () {
+          store.remove('pushToken')
+          store.remove('dataInit')      
+          store.remove('consulta')
+        }
       store.remove('authorizationData');
+
       _authentication.isAuth = false;
       _authentication.userName = '';
       _authentication.useRefreshTokens = false;

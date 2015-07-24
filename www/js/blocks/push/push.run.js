@@ -15,83 +15,83 @@ var p=null;
     		p=pushService;
     	  $ionicPlatform.ready(function() {
 
-			    	     // Registers a device for push notifications and stores its token
-			     function pushRegister() {
-					      console.log('Ionic Push: Registering user');
+			 //    	     // Registers a device for push notifications and stores its token
+			 //     function pushRegister() {
+				// 	      console.log('Ionic Push: Registering user');
 
-					      // Register with the Ionic Push service.  All parameters are optional.
-					      $ionicPush.register({
-					        canShowAlert: true, //Can pushes show an alert on your screen?
-					        canSetBadge: true, //Can pushes update app icon badges?
-					        canPlaySound: true, //Can notifications play a sound?
-					        canRunActionsOnWake: true, //Can run actions outside the app,
-					        onNotification: function(notification) {
-					          // Handle new push notifications here
-					          // console.log(notification.payload.payload.$state);
+				// 	      // Register with the Ionic Push service.  All parameters are optional.
+				// 	      $ionicPush.register({
+				// 	        canShowAlert: true, //Can pushes show an alert on your screen?
+				// 	        canSetBadge: true, //Can pushes update app icon badges?
+				// 	        canPlaySound: true, //Can notifications play a sound?
+				// 	        canRunActionsOnWake: true, //Can run actions outside the app,
+				// 	        onNotification: function(notification) {
+				// 	          // Handle new push notifications here
+				// 	          // console.log(notification.payload.payload.$state);
 
-						          if(notification.payload){
+				// 		          if(notification.payload){
 						          	
-							          if(notification.payload.payload && notification.payload.payload.$state){
-							          	 var stateparams={};
-							         	 if(notification.payload.payload.$stateParams){
-								          	stateparams= angular.fromJson(notification.payload.payload.$stateParams)
+				// 			          if(notification.payload.payload && notification.payload.payload.$state){
+				// 			          	 var stateparams={};
+				// 			         	 if(notification.payload.payload.$stateParams){
+				// 				          	stateparams= angular.fromJson(notification.payload.payload.$stateParams)
 								          
-									         $cordovaDialogs.beep(1);
-									         if( pushService.active){
-									         		$cordovaDialogs.confirm(notification.payload.payload.message, notification.payload.payload.title, ['cancel','ok'])
-												    .then(function(buttonIndex) {
-												      // no button = 0, 'OK' = 1, 'Cancel' = 2
-												      var btnIndex = buttonIndex;
-												      if(btnIndex===2){
-												      	$state.go(notification.payload.payload.$state, stateparams);
-												      }
-												    });	
+				// 					         $cordovaDialogs.beep(1);
+				// 					         if( pushService.active){
+				// 					         		$cordovaDialogs.confirm(notification.payload.payload.message, notification.payload.payload.title, ['cancel','ok'])
+				// 								    .then(function(buttonIndex) {
+				// 								      // no button = 0, 'OK' = 1, 'Cancel' = 2
+				// 								      var btnIndex = buttonIndex;
+				// 								      if(btnIndex===2){
+				// 								      	$state.go(notification.payload.payload.$state, stateparams);
+				// 								      }
+				// 								    });	
 
-									         }else
-									         {
-									         	$state.go(notification.payload.payload.$state, stateparams);
+				// 					         }else
+				// 					         {
+				// 					         	$state.go(notification.payload.payload.$state, stateparams);
 
-									         }
+				// 					         }
 								          
-								          }	
-							          }
-						          }					         
-					          return true;
-					        }
-					      });
-					    };
+				// 				          }	
+				// 			          }
+				// 		          }					         
+				// 	          return true;
+				// 	        }
+				// 	      });
+				// 	    };
 
-				// if(!store.get('pushToken')){
-				 pushRegister();
-					// }
+				// // if(!store.get('pushToken')){
+				//  pushRegister();
+				// 	// }
 
-			    			 // Handles incoming device tokens
-		    $rootScope.$on('$cordovaPush:tokenReceived', function(event, data) {		      
-		     console.log('Ionic Push: Got token ', data.token, data.platform);
-		     	if( data.token){
-		     		pushService.active=true;
-		     		if(!store.get('pushToken')){
-		     			promise.existsConsulta()
-		     			.then(onCompleteExistsConsulta)
-		     			.then(insertPush)
-		     			.then(insertPushTokenComplete)
+			 //    			 // Handles incoming device tokens
+		  //   $rootScope.$on('$cordovaPush:tokenReceived', function(event, data) {		      
+		  //    console.log('Ionic Push: Got token ', data.token, data.platform);
+		  //    	if( data.token){
+		  //    		pushService.active=true;
+		  //    		if(!store.get('pushToken')){
+		  //    			promise.existsConsulta()
+		  //    			.then(onCompleteExistsConsulta)
+		  //    			.then(insertPush)
+		  //    			.then(insertPushTokenComplete)
 
-		     			function onCompleteExistsConsulta (res) {
-		     				return res
-		     			}
+		  //    			function onCompleteExistsConsulta (res) {
+		  //    				return res
+		  //    			}
 
-		     			function insertPush (res) {
-		     				return pushService.insertPushToken(data)
-		     			}
-						// pushService.insertPushToken(data).then(insertPushTokenComplete)
-		     			function  insertPushTokenComplete() {
-		     		      store.set('pushToken', data);
+		  //    			function insertPush (res) {
+		  //    				return pushService.insertPushToken(data)
+		  //    			}
+				// 		// pushService.insertPushToken(data).then(insertPushTokenComplete)
+		  //    			function  insertPushTokenComplete() {
+		  //    		      store.set('pushToken', data);
 		     		      
-		     			}
-		     		}
-		     	}
+		  //    			}
+		  //    		}
+		  //    	}
 		     	      
-		    });
+		  //   });
 
 	    })
 

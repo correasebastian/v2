@@ -7,9 +7,9 @@
 
 	    .factory('coreService', coreService)
 
-	    coreService.$inject=[ 'logger','exception', 'zumeroService' , 'Sqlite' , 'store' , 'consultaService', 'dataInitService']
+	    coreService.$inject=[ 'logger','exception', 'zumeroService' , 'Sqlite' , 'store' , 'consultaService', 'dataInitService' , 'identifyService' ,'pushService']
 
-	    function coreService( logger , exception  , zumeroService   , Sqlite  , store   , consultaService   , dataInitService){
+	    function coreService( logger , exception  , zumeroService   , Sqlite  , store   , consultaService   , dataInitService   ,  identifyService  , pushService){
 
 	    
 	      var Factory= {
@@ -23,13 +23,17 @@
 	    	if (store.get('authorizationData') ){
 
 			    function setZumero () {
+		    	   	if(!store.get('pushToken')){
+						identifyService.identifyUser(); 
+					}
 		            // zumeroService.setZumero(store.get('dataInit').zfile);
 		            zumeroService.setZumero('zzdbfile');
-		            Sqlite.setDb(zumeroService.dbfileComplete);
+		            Sqlite.setDb(zumeroService.dbfileComplete);		            
 		            zumeroService.zync(1).then(onFirstZync) 
 
 		            function onFirstZync () {
 		                  logger.success('onFirstZync');
+		                  pushService.pushRegister();
 		                  if(!store.get('consulta')){
 		                    consultaService.setConsulta().then(onSetConsultas);
 		                    }

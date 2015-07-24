@@ -6,9 +6,9 @@
     .module('blocks.zumero')  
     .factory('zumeroService', zumeroService)
 
-    zumeroService.$inject=['$q','$timeout','$interval','$cordovaDevice', 'logger', 'widgetsService']
+    zumeroService.$inject=['$q','$timeout','$interval','$cordovaDevice', 'logger', 'widgetsService' , 'exception']
 
-    function zumeroService($q,$timeout,$interval,$cordovaDevice, logger , widgetsService){
+    function zumeroService($q,$timeout,$interval,$cordovaDevice,         logger ,   widgetsService  ,  exception){
 
       var zumero=null;
       var zumeroFactory= {
