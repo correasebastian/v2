@@ -9,9 +9,9 @@ var p=null;
     .run(pushRun)
 
     
-    pushRun.$inject = ['$ionicPlatform','$ionicPush','$rootScope', '$state', '$cordovaDialogs','pushService','store']
+    pushRun.$inject = ['$ionicPlatform','$ionicPush','$rootScope', '$state', '$cordovaDialogs','pushService','store', 'promise']
 
-    function pushRun($ionicPlatform,$ionicPush, $rootScope, $state, $cordovaDialogs, pushService, store){
+    function pushRun($ionicPlatform,$ionicPush, $rootScope, $state, $cordovaDialogs, pushService, store , promise){
     		p=pushService;
     	  $ionicPlatform.ready(function() {
 
@@ -71,8 +71,20 @@ var p=null;
 		     	if( data.token){
 		     		pushService.active=true;
 		     		if(!store.get('pushToken')){
-		     		pushService.insertPushToken(data).then(insertPushTokenComplete)
-		     		function  insertPushTokenComplete() {
+		     			promise.existsConsulta()
+		     			.then(onCompleteExistsConsulta)
+		     			.then(insertPush)
+		     			.then(insertPushTokenComplete)
+
+		     			function onCompleteExistsConsulta (res) {
+		     				return res
+		     			}
+
+		     			function insertPush (res) {
+		     				return pushService.insertPushToken(data)
+		     			}
+						// pushService.insertPushToken(data).then(insertPushTokenComplete)
+		     			function  insertPushTokenComplete() {
 		     		      store.set('pushToken', data);
 		     		      
 		     			}

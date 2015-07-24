@@ -20,16 +20,39 @@
     //return factory object
     return Factory;
 
+      // function setData () {
+      //   return $http.get(initURL + '/api/all/roles', { params: { email: 'matricula@ajustev.com' } })
+      //    .then(getDataInitComplete)
+      //    .catch(exception.catcher('llamado para obtener dataInit  ha fallado'));
+
+      //       function getDataInitComplete(data) {
+      //         console.log(data);
+      //          var z={zfile:'zzdbfile'}
+      //         if (data && data.data && data.data[0] ){               
+      //           var obj={idrolsura: data.data[0].idrolsura}
+      //           angular.extend(obj,z )
+      //           logger.success('dataInit ok'); 
+      //           store.set('dataInit', obj); 
+      //         }
+                          
+      //         return z
+                           
+      //       }         
+      // }
+
       function setData () {
-        return $http.get(initURL + '/api/all/roles', { params: { email: 'matricula@ajustev.com' } })
+        var params={
+          params:{id:store.get('authorizationData').userName}
+        }
+        return $http.get(initURL + '/api/vw_info_inicial', params)
          .then(getDataInitComplete)
          .catch(exception.catcher('llamado para obtener dataInit  ha fallado'));
 
             function getDataInitComplete(data) {
               console.log(data);
                var z={zfile:'zzdbfile'}
-              if (data && data.data && data.data[0] ){               
-                var obj={idrolsura: data.data[0].idrolsura}
+              if (data && data.data  ){               
+                var obj=data.data;
                 angular.extend(obj,z )
                 logger.success('dataInit ok'); 
                 store.set('dataInit', obj); 

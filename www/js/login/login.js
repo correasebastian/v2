@@ -5,9 +5,9 @@
         .module('app.login')
         .controller('Login', Login);
 
-    Login.$inject = [ 'logger' , '$state' , 'authService'];
+    Login.$inject = [ 'logger' , '$state' , 'authService', 'coreService'];
 
-    function Login(   logger , $state, authService) {
+    function Login(   logger , $state, authService   , coreService) {
 
 
         /*jshint validthis: true */
@@ -29,7 +29,8 @@
           function login() {            
               authService.login(vm.loginData).then(onCompleteLogin, onErrorLogin); 
 
-              function onCompleteLogin (res) {                        
+              function onCompleteLogin (res) {
+                coreService.onAuth();                        
                 signIn();              
               }
 
