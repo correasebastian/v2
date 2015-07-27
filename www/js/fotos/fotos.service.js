@@ -22,6 +22,7 @@
 			setMatricula:setMatricula,
 			takePic:takePic,
 			updateFoto:updateFoto,
+			updateFotos:updateFotos,
 			updateMatricula:updateMatricula,
 			updateSistemas:updateSistemas,
 			zync:zync
@@ -116,6 +117,21 @@
 				console.log(data)					
 				logger.success('update sqlite', FileEntry.idfoto, data)				
 				return FileEntry;				
+			}
+		}
+
+		function updateFotos ( bindings) {			
+			var query=store.get('consulta').cUpdateFoto;//consultaService.consultas.cPlacas;
+			// var binding=[sync, FileEntry.idfoto];
+			return Sqlite.insertCollection(query, bindings)
+                .then(updatetFotosComplete)
+                .catch(exception.catcher('update  fotos sqlite ha fallado'));
+			
+			function updatetFotosComplete (data) {
+				console.log(data)					
+				logger.success('update sqlite', data)				
+				// return FileEntry;	
+				return data;			
 			}
 		}
 

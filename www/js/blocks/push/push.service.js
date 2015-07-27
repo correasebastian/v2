@@ -6,9 +6,12 @@
 	.factory('pushService', pushService)
 	pushService.$inject=['exception', 'logger','Sqlite', '$rootScope'  , 'store' , '$ionicPush', '$state', '$cordovaDialogs' ,'promise' , '$timeout'];
 	function pushService ( exception, logger  ,Sqlite ,  $rootScope    ,  store    ,$ionicPush , $state  ,  $cordovaDialogs  , promise  ,  $timeout) {
+		
+		
 		var pushFactory= {
 			insertPushToken:insertPushToken	,
 			insert:insert,
+			isFirst:true,
 			active:false,
 			pushRegister:pushRegister,
 			removePushToken:removePushToken,
@@ -19,6 +22,10 @@
 		return pushFactory;
 		//implementacion
 		function insertPushToken (data) {
+
+			if(pushFactory.isFirst ){
+				pushFactory.isFirst=false;
+			}
 			logger.log('---------insert token');						
 			// var query='INSERT INTO [pushtokens] ([email] ,[token] ,[platform]) VALUES (?,?,?)';
 			var query = store.get('consulta').cInsertPushToken;
@@ -133,10 +140,16 @@
 		     			}
 
 		     			function insertPush (res) {
-		     				return insertPushToken(data)
+		     				if(pushFactory.isFirst){
+		     					return insertPushToken(data)
+		     				}else{
+		     					return false
+
+		     				}
+		     				
 		     			}
 						// pushService.insertPushToken(data).then(insertPushTokenComplete)
-		     			function  insertPushTokenComplete() {
+		     			function  insertPushTokenComplete(data) {
 		     		      store.set('pushToken', data);
 		     		      
 		     			}

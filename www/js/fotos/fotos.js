@@ -413,7 +413,7 @@
               promises.push(
                 transferService.upload(foto)
                 .then(onCompleteUploadFile)
-                .then(updateFoto)
+                // .then(updateFoto)
                 .then(onCompleteUpdateFoto)
                 );
 
@@ -440,8 +440,26 @@
 
             function allPromisesComplete (data) {
                 console.log(data)
-                 return zync();
+                 return data;
                }
+
+            function updateArray (array) {
+               var bindings =[];
+
+                angular.forEach(array, function(obj, key){
+                  var binding=[obj.sync, obj.idfoto]
+                  bindings.push(binding);
+                });
+
+                console.log(bindings);
+
+                return fotoService.updateFotos(bindings)  
+                 
+               }
+
+            function setZync (data) {
+                 return zync();
+               }   
             
             function onZyncComplete (res) {
                  return sendPush.send()
@@ -457,7 +475,10 @@
 
               return $q.all(promises)
               .then(allPromisesComplete)
-              .then(onZyncComplete)              
+              .then(updateArray)
+              .then(setZync)
+              .then(onZyncComplete)
+              .then(getFotos)              
               .finally(finallyPromises);    
 
             }

@@ -33,7 +33,7 @@
 		            zumeroService.zync(1).then(onFirstZync) 
 
 		            function onFirstZync () {
-		                  logger.success('onFirstZync');
+		                  logger.success('onFirstZync');		                  
 		                  pushService.pushRegister();
 		                  if(!store.get('consulta')){
 		                    consultaService.setConsulta().then(onSetConsultas);
