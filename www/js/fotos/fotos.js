@@ -5,9 +5,9 @@
     .module('app.fotos')
     .controller('Fotos', Fotos);
 
-    Fotos.$inject = ['$q', 'fotoService', 'logger','$ionicPopover','$ionicPopup', '$scope', '$stateParams' , 'promise', 'copyService', 'transferService', 'filterService', 'widgetsService' ,'$ionicModal' , 'sendPush'];
+    Fotos.$inject = ['$q', 'fotoService', 'logger','$ionicPopover','$ionicPopup', '$scope', '$stateParams' , 'promise', 'copyService', 'transferService', 'filterService', 'widgetsService' ,'$ionicModal' , 'sendPush' , 'dataInitService'];
 
-    function Fotos($q,fotoService,logger,$ionicPopover,$ionicPopup,$scope,$stateParams                      ,promise, copyService     , transferService  , filterService  ,  widgetsService  , $ionicModal  ,  sendPush) {
+    function Fotos($q,fotoService,logger,$ionicPopover,$ionicPopup,$scope,$stateParams                      ,promise, copyService     , transferService  , filterService  ,  widgetsService  , $ionicModal  ,  sendPush  ,  dataInitService) {
           // console.log(zumeroService, 'zumero service on fotos')
           /*jshint validthis: true */
           var vm = this;
@@ -21,6 +21,7 @@
             title: 'Marvel Avengers',
             description: 'Marvel Avengers 2 is now in production!'
           };
+          vm.role=dataInitService.data;
 
           vm.data={
             sistemasDictamen:null,

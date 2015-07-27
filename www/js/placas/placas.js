@@ -7,9 +7,9 @@ var pl=null;
         .module('app.placas')
         .controller('Placas', Placas);
 
-    Placas.$inject = ['$q', 'placaService', 'logger', 'promise','zumeroService', 'sendPush', '$scope', '$ionicPopup'];
+    Placas.$inject = ['$q', 'placaService', 'logger', 'promise','zumeroService', 'sendPush', '$scope', '$ionicPopup' ,'dataInitService'];
 
-    function Placas($q,placaService,logger,promise,zumeroService,sendPush,$scope,$ionicPopup) {
+    function Placas($q,placaService,         logger,     promise,zumeroService  ,sendPush     ,$scope  ,$ionicPopup , dataInitService) {
 
 
         console.log(zumeroService, 'zumero service on placas')
@@ -26,6 +26,7 @@ var pl=null;
         vm.data = {placa: null, sl: null};        
         vm.insertPLaca=insertPLaca;
         vm.placaPopup=placaPopup;
+        vm.role=dataInitService.data;
         vm.title = 'Placas';
 
          preActivate();

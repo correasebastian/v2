@@ -14,7 +14,8 @@
       var initURL='http://190.145.39.139/suralocalapi'
       var Factory= {
       setData:setData ,
-      resetDataInit:resetDataInit   
+      resetDataInit:resetDataInit ,
+      data:null  
       }
     
     //return factory object
@@ -55,6 +56,7 @@
                 var obj=data.data;
                 angular.extend(obj,z )
                 logger.success('dataInit ok'); 
+                factory.data=obj;
                 store.set('dataInit', obj); 
               }
                           
