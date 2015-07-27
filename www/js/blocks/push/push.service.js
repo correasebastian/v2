@@ -95,7 +95,7 @@
 	         	 if(notification.payload.payload.$stateParams){
 		          	stateparams= angular.fromJson(notification.payload.payload.$stateParams)
 		          
-			         $cordovaDialogs.beep(1);
+			         $cordovaDialogs.beep(2);
 			         if( pushFactory.active){
 		         		$cordovaDialogs.confirm(notification.payload.payload.message, notification.payload.payload.title, ['cancel','ok'])
 					    .then(function(buttonIndex) {
