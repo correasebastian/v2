@@ -93,7 +93,7 @@
 		function insertFoto (  FileEntry) {
 			// var sync=0;
 			var query=store.get('consulta').cInsertFotos;//consultaService.consultas.cPlacas;
-			var binding=[FileEntry.idinspeccion , FileEntry.placa, FileEntry.path, FileEntry.sync, FileEntry.idtipo.idTipoFoto];
+			var binding=[FileEntry.idinspeccion , FileEntry.placa, FileEntry.path, FileEntry.sync, FileEntry.idtipo.idTipoFoto, momentService.getDateTime()];
 			return Sqlite.execute(query, binding)
                 .then(insertFotoComplete)
                 .catch(exception.catcher('insertar  foto sqlite ha fallado'));

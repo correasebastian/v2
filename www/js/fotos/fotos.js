@@ -462,7 +462,7 @@
                }   
             
             function onZyncComplete (res) {
-                 return sendPush.send()
+                 return sendPush.send(vm.idinspeccion, vm.placa)
              }
 
             // function onSendPushComplete (argument) {
