@@ -4,8 +4,8 @@
 	.module('app.placas')    
 
 	.factory('placaService', placaService)
-	placaService.$inject=['$filter','exception', '$http' , 'logger' , 'promise','consultaService' , 'Sqlite', 'store'];
-	function placaService (  $filter , exception, $http, logger, promise       , consultaService  ,Sqlite , store) {
+	placaService.$inject=['$filter','exception', '$http' , 'logger' , 'promise','consultaService' , 'Sqlite', 'store' , 'momentService'];
+	function placaService (  $filter , exception, $http, logger, promise       , consultaService  ,Sqlite    , store  ,  momentService) {
 
 	
 		var placaFactory= {
@@ -56,7 +56,7 @@
 		function insertPlaca (placa) {
 			//store.get('consulta').cPlacas;
 			var query=consultaService.consultas.cInsertPlaca;
-			var binding=[new Date().toISOString(), placa];
+			var binding=[new Date().toISOString(), placa, momentService.getDateTime()];
 			return Sqlite.execute(query, binding)
                 .then(insertPlacaComplete)
                 .catch(exception.catcher('ingreso de  placa ha fallado'));

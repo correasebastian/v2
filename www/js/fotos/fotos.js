@@ -5,9 +5,9 @@
     .module('app.fotos')
     .controller('Fotos', Fotos);
 
-    Fotos.$inject = ['$q', 'fotoService', 'logger','$ionicPopover','$ionicPopup', '$scope', '$stateParams' , 'promise', 'copyService', 'transferService', 'filterService', 'widgetsService' ,'$ionicModal' ];
+    Fotos.$inject = ['$q', 'fotoService', 'logger','$ionicPopover','$ionicPopup', '$scope', '$stateParams' , 'promise', 'copyService', 'transferService', 'filterService', 'widgetsService' ,'$ionicModal' , 'sendPush'];
 
-    function Fotos($q,fotoService,logger,$ionicPopover,$ionicPopup,$scope,$stateParams                      ,promise, copyService     , transferService  , filterService  ,  widgetsService  , $ionicModal) {
+    function Fotos($q,fotoService,logger,$ionicPopover,$ionicPopup,$scope,$stateParams                      ,promise, copyService     , transferService  , filterService  ,  widgetsService  , $ionicModal  ,  sendPush) {
           // console.log(zumeroService, 'zumero service on fotos')
           /*jshint validthis: true */
           var vm = this;
@@ -442,11 +442,23 @@
                 console.log(data)
                  return zync();
                }
-            function finallyPromises (argument) {
-                 widgetsService.hideSpinner();
-               }   
+            
+            function onZyncComplete (res) {
+                 return sendPush.send()
+             }
 
-              return $q.all(promises).then(allPromisesComplete).finally(finallyPromises);    
+            // function onSendPushComplete (argument) {
+            //    // body...
+            //  } 
+
+            function finallyPromises (argument) {                
+                 widgetsService.hideSpinner();
+               }      
+
+              return $q.all(promises)
+              .then(allPromisesComplete)
+              .then(onZyncComplete)              
+              .finally(finallyPromises);    
 
             }
 

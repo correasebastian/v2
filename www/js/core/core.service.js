@@ -20,6 +20,7 @@
 	    return Factory;
 
 	    function onAuth (argument) {
+	    	pushService.setActive(true);
 	    	if (store.get('authorizationData') ){
 
 			    function setZumero () {

@@ -4,15 +4,16 @@
 	.module('blocks.push')    
 
 	.factory('pushService', pushService)
-	pushService.$inject=['exception', 'logger','Sqlite', '$rootScope'  , 'store' , '$ionicPush', '$state', '$cordovaDialogs' ,'promise'];
-	function pushService ( exception, logger  ,Sqlite ,  $rootScope    ,  store    ,$ionicPush , $state  ,  $cordovaDialogs  , promise) {
+	pushService.$inject=['exception', 'logger','Sqlite', '$rootScope'  , 'store' , '$ionicPush', '$state', '$cordovaDialogs' ,'promise' , '$timeout'];
+	function pushService ( exception, logger  ,Sqlite ,  $rootScope    ,  store    ,$ionicPush , $state  ,  $cordovaDialogs  , promise  ,  $timeout) {
 		var pushFactory= {
 			insertPushToken:insertPushToken	,
 			insert:insert,
 			active:false,
 			pushRegister:pushRegister,
 			removePushToken:removePushToken,
-			registerEventTokenReceived:registerEventTokenReceived
+			registerEventTokenReceived:registerEventTokenReceived,
+			setActive:setActive
 		}
 		//return factory object
 		return pushFactory;
@@ -45,6 +46,14 @@
                 function onError (err) {
                 	console.log(err)
                 }			
+		}
+
+		function setActive (bool) {
+			if(bool && !pushFactory.active){
+				$timeout(function(){
+					pushFactory.active=true;
+				}, 25000);
+			}
 		}
 
 		function removePushToken () {
@@ -80,7 +89,7 @@
 		          	stateparams= angular.fromJson(notification.payload.payload.$stateParams)
 		          
 			         $cordovaDialogs.beep(1);
-			         if( pushService.active){
+			         if( pushFactory.active){
 		         		$cordovaDialogs.confirm(notification.payload.payload.message, notification.payload.payload.title, ['cancel','ok'])
 					    .then(function(buttonIndex) {
 					      // no button = 0, 'OK' = 1, 'Cancel' = 2
@@ -110,8 +119,9 @@
 						    			 // Handles incoming device tokens
 		    $rootScope.$on('$cordovaPush:tokenReceived', function(event, data) {		      
 		     console.log('Ionic Push: Got token ', data.token, data.platform);
+		     pushFactory.active=true;
 		     	if( data.token){
-		     		pushService.active=true;
+		     		
 		     		if(!store.get('pushToken')){
 		     			promise.existsConsulta()
 		     			.then(onCompleteExistsConsulta)
