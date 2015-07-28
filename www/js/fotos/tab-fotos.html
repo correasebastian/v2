@@ -36,8 +36,12 @@
   </div>
 
   <a ng-show="foto.sync==0" class="item item-icon-left assertive" href="#">
-    <i class="icon ion-music-note"></i>
-    Start listening
+    <i class="icon ion-thumbsdown icon-accessory " style=" color: red;"></i>
+    <!-- Start listening -->
+  </a>
+  <a ng-show="foto.sync==1" class="item item-icon-left assertive" href="#">
+    <i class="icon ion-thumbsup icon-accessory " style=" color: green;"></i>
+    <!-- Start listening -->
   </a>
 
 </div>

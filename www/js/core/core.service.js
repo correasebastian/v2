@@ -7,9 +7,9 @@
 
 	    .factory('coreService', coreService)
 
-	    coreService.$inject=[ 'logger','exception', 'zumeroService' , 'Sqlite' , 'store' , 'consultaService', 'dataInitService' , 'identifyService' ,'pushService']
+	    coreService.$inject=[ 'logger','exception', 'zumeroService' , 'Sqlite' , 'store' , 'consultaService', 'dataInitService' , 'identifyService' ,'pushService' ,'$cordovaDevice']
 
-	    function coreService( logger , exception  , zumeroService   , Sqlite  , store   , consultaService   , dataInitService   ,  identifyService  , pushService){
+	    function coreService( logger , exception  , zumeroService   , Sqlite  , store   , consultaService   , dataInitService   ,  identifyService  , pushService  ,  $cordovaDevice){
 
 	    
 	      var Factory= {
@@ -21,6 +21,11 @@
 
 	    function onAuth (argument) {
 	    	pushService.setActive(true);
+	    	dataInitService.uuid=$cordovaDevice.getUUID();
+	    	if(store.get('dataInit')){
+	    		dataInitService.data=store.get('dataInit');
+	    	}
+	    	
 	    	if (store.get('authorizationData') ){
 
 			    function setZumero () {

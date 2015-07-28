@@ -50,6 +50,7 @@ var filter=null;
   // Each tab has its own nav history stack:
 
   .state('tab.dash', {
+    cache: false,
     url: '/dash',
     views: {
       'tab-dash': {
@@ -73,6 +74,7 @@ var filter=null;
           })
 
   .state('tab.chats', {
+    cache: false,
       url: '/chats',
      views: {
       'tab-chats': {
@@ -82,6 +84,7 @@ var filter=null;
     }
     })
     .state('tab.chat-detail', {
+      cache: false,
       url: '/chats/:idinspeccion/:placa',
        views: {
         'tab-chats': {

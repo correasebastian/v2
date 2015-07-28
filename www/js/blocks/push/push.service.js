@@ -4,8 +4,8 @@
 	.module('blocks.push')    
 
 	.factory('pushService', pushService)
-	pushService.$inject=['exception', 'logger','Sqlite', '$rootScope'  , 'store' , '$ionicPush', '$state', '$cordovaDialogs' ,'promise' , '$timeout'];
-	function pushService ( exception, logger  ,Sqlite ,  $rootScope    ,  store    ,$ionicPush , $state  ,  $cordovaDialogs  , promise  ,  $timeout) {
+	pushService.$inject=['exception', 'logger','Sqlite', '$rootScope'  , 'store' , '$ionicPush', '$state', '$cordovaDialogs' ,'promise' , '$timeout' ,'zumeroService'];
+	function pushService ( exception, logger  ,Sqlite ,  $rootScope    ,  store    ,$ionicPush , $state  ,  $cordovaDialogs  , promise  ,  $timeout  , zumeroService) {
 		
 		
 		var pushFactory= {
@@ -92,7 +92,11 @@
 
 	          if(notification.payload && notification.payload.payload && notification.payload.payload.$state){
 	          	 var stateparams={};
-	         	 if(notification.payload.payload.$stateParams){
+	          	 zumeroService.zync()
+	          	 .then(onCompleteZync)
+
+	          	 function onCompleteZync () {
+	          	 	 if(notification.payload.payload.$stateParams){
 		          	stateparams= angular.fromJson(notification.payload.payload.$stateParams)
 		          
 			         $cordovaDialogs.beep(2);
@@ -112,7 +116,10 @@
 
 			         }
 		          
-		          }	
+		          }
+	          	 }
+
+	         		
 	          }
 	         					         
 	          return true;

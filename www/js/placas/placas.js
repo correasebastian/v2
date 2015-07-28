@@ -40,12 +40,24 @@ var pl=null;
            }
 
           function activate() {
-              var promises = [ getPlacas()];
-  //            Using a resolver on all routes or placaService.ready in every controller
-  //            return placaService.ready(promises).then(function(){
-              return $q.all(promises).then(function(res) {
-                  logger.info('Activated Placas View', res);
-              });
+  //             var promises = [ getPlacas()];
+  // //            Using a resolver on all routes or placaService.ready in every controller
+  // //            return placaService.ready(promises).then(function(){
+  //             return $q.all(promises).then(function(res) {
+  //                 logger.info('Activated Placas View', res);
+  //             });
+
+              return zumeroService.zync(1)
+              .then(onCompleteZync)
+              .then(getPlacas)
+              function onCompleteZync (res) {
+                return res;
+              }
+
+              function onGetPlacas (res) {
+                logger.info('Activated Placas View', res);
+                return res;
+              }
           }
 
 

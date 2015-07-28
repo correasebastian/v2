@@ -5,9 +5,9 @@
     .module('app.fotos')
     .controller('Fotos', Fotos);
 
-    Fotos.$inject = ['$q', 'fotoService', 'logger','$ionicPopover','$ionicPopup', '$scope', '$stateParams' , 'promise', 'copyService', 'transferService', 'filterService', 'widgetsService' ,'$ionicModal' , 'sendPush' , 'dataInitService'];
+    Fotos.$inject = ['$q', 'fotoService', 'logger','$ionicPopover','$ionicPopup', '$scope', '$stateParams' , 'promise', 'copyService', 'transferService', 'filterService', 'widgetsService' ,'$ionicModal' , 'sendPush' , 'dataInitService', 'momentService' ,'$timeout'];
 
-    function Fotos($q,fotoService,logger,$ionicPopover,$ionicPopup,$scope,$stateParams                      ,promise, copyService     , transferService  , filterService  ,  widgetsService  , $ionicModal  ,  sendPush  ,  dataInitService) {
+    function Fotos($q,fotoService,logger,$ionicPopover,$ionicPopup,$scope,$stateParams                      ,promise, copyService     , transferService  , filterService  ,  widgetsService  , $ionicModal  ,  sendPush  ,  dataInitService ,  momentService  , $timeout) {
           // console.log(zumeroService, 'zumero service on fotos')
           /*jshint validthis: true */
           var vm = this;
@@ -21,7 +21,7 @@
             title: 'Marvel Avengers',
             description: 'Marvel Avengers 2 is now in production!'
           };
-          vm.role=dataInitService.data;
+          
 
           vm.data={
             sistemasDictamen:null,
@@ -79,16 +79,35 @@
     //            return Fotoservice.ready(promises).then(function(){
       return $q.all(promises).then(function(res) {
         setData();     
-        logger.info('Activated Fotos View', res);
+        logger.info('Fotos activado', res);
       });
     }
 
 
     function getFotos() {
-      return fotoService.getFotos(vm.idinspeccion).then(function(data) {
-        vm.fotos = data;
+      return fotoService.getFotos(vm.idinspeccion)
+      .then(onCompleteFotos);
+        function onCompleteFotos(data) {
+          vm.role=dataInitService.data;
+          vm.fotos = data;
+          if(vm.role.idrolsura==1){
+            return getFotosHttp();
+          }else{
+            return vm.fotos;
+          }          
+        }
+    }
+
+    function getFotosHttp() {
+      return fotoService.getFotosHttp(vm.idinspeccion)
+      .then(onCompleteFotosHttp);
+
+      function onCompleteFotosHttp(data) {        
+        angular.forEach(data, function(obj, key){
+          vm.fotos.push(obj)
+        });
         return vm.fotos;
-      });
+      }
     }
 
     function setIdTipoFoto(tipoFoto) {        
@@ -277,12 +296,20 @@
 
    function resetData(){
       if(vm.dataCopy.matriculasDictamen){
-      var obj= { idmatriculadictamen: vm.dataCopy.matriculasDictamen.idmatriculadictamen }      
-      vm.data.matriculasDictamen =  filterService.rtnFirstObject(vm.matriculasDictamenes, obj)
+        var obj= { idmatriculadictamen: vm.dataCopy.matriculasDictamen.idmatriculadictamen }      
+        vm.data.matriculasDictamen =  filterService.rtnFirstObject(vm.matriculasDictamenes, obj)
+      }else{
+
+        vm.data.matriculasDictamen =vm.dataCopy.matriculasDictamen;
+
       }
       if(vm.dataCopy.sistemasDictamen){
-      var obj=  { idsistemasdictamen: vm.dataCopy.sistemasDictamen.idsistemasdictamen }      
-      vm.data.sistemasDictamen = filterService.rtnFirstObject(vm.sistemasDictamenes, obj)
+        var obj=  { idsistemasdictamen: vm.dataCopy.sistemasDictamen.idsistemasdictamen }      
+        vm.data.sistemasDictamen = filterService.rtnFirstObject(vm.sistemasDictamenes, obj)
+      }else{
+
+        vm.data.sistemasDictamen =vm.dataCopy.sistemasDictamen
+
       }
 
    }
@@ -362,7 +389,9 @@
                 placa: vm.placa,
                 path :FileEntry.nativeURL,
                 sync:0,
-                idtipo:vm.idtipo
+                idtipo:vm.idtipo,
+                rutaSrv:momentService.rutaSrv(FileEntry.nativeURL, vm.placa)
+
               });
 
               // return fotoService.insertFoto(vm.idinspeccion, vm.placa, FileEntry)
@@ -370,7 +399,15 @@
             }
 
             function onCompleteInsertFoto (FileEntry) {
-              var foto={idinspeccion:FileEntry.idinspeccion,placa:FileEntry.placa, path:FileEntry.path, idfoto:FileEntry.idfoto, sync:FileEntry.sync, idtipo: FileEntry.idtipo.idTipoFoto};
+              var foto={
+                idinspeccion:FileEntry.idinspeccion,
+                placa:FileEntry.placa, 
+                path:FileEntry.path, 
+                idfoto:FileEntry.idfoto, 
+                sync:FileEntry.sync, 
+                idtipo: FileEntry.idtipo.idTipoFoto,
+                rutaSrv:FileEntry.rutaSrv
+              };
               vm.fotos.push(foto);
               removeFromfaltantes(foto)
               return FileEntry;
@@ -414,7 +451,7 @@
               promises.push(
                 transferService.upload(foto)
                 .then(onCompleteUploadFile)
-                // .then(updateFoto)
+                .then(updateFoto)
                 .then(onCompleteUpdateFoto)
                 );
 
@@ -429,12 +466,12 @@
               }
 
               function onCompleteUpdateFoto (FileEntry) {
-              // logger.info('update ok', FileEntry);
-              var obj={ idfoto: FileEntry.idfoto }
-              var foto = filterService.rtnFirstObject(vm.fotos, obj);
-              logger.log(foto);
-              foto.sync=1; 
-              return FileEntry;  
+                // logger.info('update ok', FileEntry);
+                var obj={ idfoto: FileEntry.idfoto }
+                var foto = filterService.rtnFirstObject(vm.fotos, obj);
+                logger.log(foto);
+                foto.sync=1; 
+                return FileEntry;  
               } 
             
             });
@@ -445,17 +482,26 @@
                }
 
             function updateArray (array) {
-               var bindings =[];
+               // var bindings =[];
 
-                angular.forEach(array, function(obj, key){
-                  var binding=[obj.sync, obj.idfoto]
-                  bindings.push(binding);
-                });
+               //  angular.forEach(array, function(obj, key){
+               //    console.log(obj,'--------');
+               //    var binding=[obj.sync, obj.idinspeccion, dataInitService.uuid, obj.path]
+               //    bindings.push(binding);
+               //  });
 
-                console.log(bindings);
+               //  console.log(bindings);
 
-                return fotoService.updateFotos(bindings)  
-                 
+               //  return fotoService.updateFotos(bindings)  
+               var binding=[1, vm.idinspeccion, dataInitService.uuid]
+
+               return $timeout(onTimeOut, 300);
+
+                 function onTimeOut () {
+                   return fotoService.updateFotos(binding) ;                   
+                 }
+
+               
                }
 
             function setZync (data) {
@@ -476,7 +522,7 @@
 
               return $q.all(promises)
               .then(allPromisesComplete)
-              .then(updateArray)
+              // .then(updateArray)
               .then(setZync)
               .then(onZyncComplete)
               .then(getFotos)              

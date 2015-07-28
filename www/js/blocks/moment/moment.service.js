@@ -12,7 +12,8 @@
 
     
       var Factory= {
-      getDateTime:getDateTime 
+      getDateTime:getDateTime ,
+      rutaSrv:rutaSrv
       }
     
     //return factory object
@@ -22,6 +23,12 @@
     function getDateTime() {
         return moment().format('YYYY-MM-DD HH:mm:ss');
       };
+
+    function rutaSrv(path, placa) {
+      var filename = path.replace(/^.*[\\\/]/, '');
+      var ruta = moment().format('YYYY/MMMM/DD/') + placa + '/' + filename;
+      return ruta;
+    };
 
   }  
 

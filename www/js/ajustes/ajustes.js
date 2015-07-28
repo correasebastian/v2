@@ -12,6 +12,7 @@
     	vm.resetConsulta=resetConsulta;
         vm.resetDataInit=resetDataInit;
         vm.logOut=logOut;
+        vm.zync=zync;
 
     	//oimplementation
 
@@ -33,6 +34,10 @@
             authService.logOut();
             $state.go('login')
 
+        }
+
+        function zync () {
+            zumeroService.zync(12);
         }
 
 

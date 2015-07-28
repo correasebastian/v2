@@ -40,7 +40,7 @@
         options.mimeType = mimetype;
 
         var params = {};
-        params.pathFileServer ='2015/JULIO/sebas/'// obj.rutaSrv.substring(0, obj.rutaSrv.lastIndexOf('/') + 1);
+        params.pathFileServer =fileEntry.rutaSrv.substring(0, fileEntry.rutaSrv.lastIndexOf('/') + 1);// '2015/JULIO/sebas/'// obj.rutaSrv.substring(0, obj.rutaSrv.lastIndexOf('/') + 1);
         params.value2 = 'param';
         options.params = params;
         // TODO: definir un servicio para set el timeout dependiendo si es foto o video;

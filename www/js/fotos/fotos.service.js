@@ -4,14 +4,15 @@
 	.module('app.fotos')    
 
 	.factory('fotoService', fotoService)
-	fotoService.$inject=['$filter','exception', '$http' , 'logger' , 'promise', '$q'  , 'store', 'Sqlite', 'zumeroService', '$cordovaCamera' ,'momentService'];
-	function fotoService (  $filter , exception, $http, logger, promise,         $q    ,  store,   Sqlite, zumeroService  ,  $cordovaCamera  ,  momentService) {
+	fotoService.$inject=['$filter','exception', '$http' , 'logger' , 'promise', '$q'  , 'store', 'Sqlite', 'zumeroService', '$cordovaCamera' ,'momentService', 'dataInitService'];
+	function fotoService (  $filter , exception, $http, logger, promise,         $q    ,  store,   Sqlite, zumeroService  ,  $cordovaCamera  ,  momentService ,  dataInitService) {
 
 		
 
 		var placaFactory= {
 			
 			getFotos:getFotos,
+			getFotosHttp:getFotosHttp,
 			getSistemasDictamenes:getSistemasDictamenes,
 			getMatriculasDictamenes:getMatriculasDictamenes,
 			getNames:getNames,
@@ -40,7 +41,7 @@
 
 		function takePic() {	
 	      var options = {
-	        quality: 38,
+	        quality: 35,
 	        //50,
 	        destinationType: Camera.DestinationType.FILE_URI,
 	        sourceType: Camera.PictureSourceType.CAMERA,
@@ -64,10 +65,24 @@
 		function getFotos (idinspeccion) {
 			//
 			var query=store.get('consulta').cFotos;//consultaService.consultas.cPlacas;
-			var binding=[idinspeccion];
+			var binding=[idinspeccion, dataInitService.uuid];
 			return Sqlite.execute(query, binding)
                 .then(getFotosComplete)
                 .catch(exception.catcher('llamado para obtener fotos ha fallado'));
+			
+			function getFotosComplete (data) {					
+				var array=Sqlite.rtnArray(data);
+				return array				
+			}
+		}
+
+		function getFotosHttp (idinspeccion) {
+			//
+			var query=store.get('consulta').cFotosHttp;//consultaService.consultas.cPlacas;
+			var binding=[idinspeccion , dataInitService.uuid];
+			return Sqlite.execute(query, binding)
+                .then(getFotosComplete)
+                .catch(exception.catcher('llamado para obtener fotos HTTP ha fallado'));
 			
 			function getFotosComplete (data) {					
 				var array=Sqlite.rtnArray(data);
@@ -93,13 +108,16 @@
 		function insertFoto (  FileEntry) {
 			// var sync=0;
 			var query=store.get('consulta').cInsertFotos;//consultaService.consultas.cPlacas;
-			var binding=[FileEntry.idinspeccion , FileEntry.placa, FileEntry.path, FileEntry.sync, FileEntry.idtipo.idTipoFoto, momentService.getDateTime()];
+			var binding=[FileEntry.idinspeccion , FileEntry.placa, FileEntry.path,
+						 FileEntry.sync, FileEntry.idtipo.idTipoFoto, 
+						 momentService.getDateTime(), dataInitService.uuid,
+						 FileEntry.rutaSrv];
 			return Sqlite.execute(query, binding)
                 .then(insertFotoComplete)
                 .catch(exception.catcher('insertar  foto sqlite ha fallado'));
 			
 			function insertFotoComplete (data) {					
-				logger.success('copiado sqlite', data)
+				logger.success('foto almacenada', data)
 				angular.extend(FileEntry, {idfoto:data.insertId});
 				return FileEntry;				
 			}
@@ -114,22 +132,35 @@
                 .catch(exception.catcher('update  foto sqlite ha fallado'));
 			
 			function updatetFotoComplete (data) {
+				if (!data.rowsAffected) {
+		          console.log('Nothing was updated');
+		        } else {
+		          console.log(data.rowsAffected);
+		          console.log('update successful');
+		        }
 				console.log(data)					
-				logger.success('update sqlite', FileEntry.idfoto, data)				
+				// logger.success('update sqlite')				
 				return FileEntry;				
 			}
 		}
 
-		function updateFotos ( bindings) {			
-			var query=store.get('consulta').cUpdateFoto;//consultaService.consultas.cPlacas;
+		function updateFotos ( binding) {			
+			var query=store.get('consulta').cUpdateFoto2;//consultaService.consultas.cPlacas;
 			// var binding=[sync, FileEntry.idfoto];
-			return Sqlite.insertCollection(query, bindings)
-                .then(updatetFotosComplete)
+			// return Sqlite.insertCollection(query, bindings)
+			return Sqlite.execute(query, binding)
+                .then(updateFotosComplete)
                 .catch(exception.catcher('update  fotos sqlite ha fallado'));
 			
-			function updatetFotosComplete (data) {
-				console.log(data)					
-				logger.success('update sqlite', data)				
+			function updateFotosComplete (data) {
+				console.log(data)		
+				if (!data.rowsAffected) {
+		          console.log('Nothing was updated');
+		        } else {
+		          console.log(data.rowsAffected);
+		          console.log('update successful');
+		        }			
+				// logger.success('update sqlite', data)				
 				// return FileEntry;	
 				return data;			
 			}
@@ -219,13 +250,13 @@
                 .catch(exception.catcher('insertar  sistema sqlite ha fallado'));
 			
 			function insertSistemasComplete (data) {					
-				logger.success('insertado sistema sqlite', data)				
+				logger.success('calificacion insertada', data)				
 				return data;				
 			}
         }
 
 
-    function updateSistemas(idinspeccion, sistemasDictamen) {
+   		function updateSistemas(idinspeccion, sistemasDictamen) {
 			// var sync=0;
 			var query=store.get('consulta').cUpdateSistemas;//consultaService.consultas.cPlacas;
 			var binding=[sistemasDictamen.idsistemasdictamen, idinspeccion];
@@ -239,7 +270,7 @@
 			}
         }
 
-    function setMatricula(idinspeccion,matriculaDictamen) {
+    	function setMatricula(idinspeccion,matriculaDictamen) {
 		 	var query=store.get('consulta').cInsertMatricula;//consultaService.consultas.cPlacas;
 				var binding=[idinspeccion ,matriculaDictamen.idmatriculadictamen, momentService.getDateTime()];
 				return Sqlite.execute(query, binding)
@@ -247,7 +278,7 @@
 	                .catch(exception.catcher('insertar  matricula sqlite ha fallado'));
 					
 			function insertMatriculaComplete (data) {					
-				logger.success('insertado matricula sqlite', data)				
+				logger.success('matricula insertada', data)				
 				return data;				
 			}
         }

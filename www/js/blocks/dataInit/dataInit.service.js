@@ -6,16 +6,17 @@
     .module('blocks.dataInit')  
     .factory('dataInitService', dataInitService)
 
-    dataInitService.$inject=[ 'logger','exception', '$http' ,'store']
+    dataInitService.$inject=[ 'logger','exception', '$http' ,'store' ]
 
-    function dataInitService( logger,  exception   , $http   , store){
+    function dataInitService( logger,  exception   , $http   , store  ){
 
       // var consultas=null;
       var initURL='http://190.145.39.139/suralocalapi'
       var Factory= {
       setData:setData ,
       resetDataInit:resetDataInit ,
-      data:null  
+      data:null ,
+      uuid:null 
       }
     
     //return factory object
@@ -56,7 +57,7 @@
                 var obj=data.data;
                 angular.extend(obj,z )
                 logger.success('dataInit ok'); 
-                factory.data=obj;
+                Factory.data=obj;
                 store.set('dataInit', obj); 
               }
                           

@@ -33,6 +33,7 @@
          }
 
           function insertCollection (query, bindings) {
+            console.log(query, bindings);
              return $cordovaSQLite.insertCollection(service.db,query, bindings); 
          }
 
