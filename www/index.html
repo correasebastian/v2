@@ -20,6 +20,7 @@
     <script src="lib/ionic/js/ionic.bundle.js"></script>
     <script src="lib/ngCordova/dist/ng-cordova.js"></script>
     <script src="lib/ionic-service-core/ionic-core.js"></script>
+    <script src="lib/ionic-service-deploy/ionic-deploy.js"></script>
     <script src="lib/ionic-service-push/ionic-push.js"></script>
     <script src="lib/angular-sanitize/angular-sanitize.js"></script>
     <script src="lib/angular-messages/angular-messages.js"></script>
@@ -30,7 +31,8 @@
     <script src="lib/ionic-ion-header-shrink/ionic.headerShrink.js"></script>
 
     <!-- cordova script (this will be a 404 during development) -->
-    <script src="cordova.js"></script>
+    <!-- Cordova is bootstrapped by ionic-service-core, uncomment this if you remove ionic-service-core... -->
+<!-- <script src="cordova.js"></script> -->
     <script src="zumero.js"></script>
 
     <!-- your app's js -->

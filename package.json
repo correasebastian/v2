@@ -21,7 +21,8 @@
     "org.apache.cordova.device",
     "org.apache.cordova.camera",
     "org.apache.cordova.file",
-    "org.apache.cordova.file-transfer"
+    "org.apache.cordova.file-transfer",
+    "C:\\Users\\sebastianc\\Documents\\ionic\\suralocal\\deploy_git\\ionic-plugin-deploy"
   ],
   "cordovaPlatforms": [
     "android"
