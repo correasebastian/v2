@@ -1,4 +1,5 @@
 /* global toastr:false, moment:false */
+
 (function() {
     
 
@@ -19,6 +20,7 @@
 	    //return factory object
 	    return Factory;
 
+
 	    function onAuth (argument) {
 	    	pushService.setActive(true);
 	    	dataInitService.uuid=$cordovaDevice.getUUID();
@@ -33,7 +35,8 @@
 						identifyService.identifyUser(); 
 					}
 		            // zumeroService.setZumero(store.get('dataInit').zfile);
-		            zumeroService.setZumero('zzdbfile');
+		            zumeroService.setZumero('zumerotestdbfile');
+		            // zumeroService.setZumero('zzdbfile');
 		            Sqlite.setDb(zumeroService.dbfileComplete);		            
 		            zumeroService.zync(1).then(onFirstZync) 
 

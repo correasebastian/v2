@@ -26,7 +26,8 @@
       // db = $cordovaSQLite.openDB(zumeroFactory.dbfileComplete, 1);
       zumero = cordova.require('cordova/plugin/zumero');
       // zumeroFactory.server = ngAuthSettings.apiServiceBaseUri + ':8080/';
-      zumeroFactory.server = 'http://190.145.39.139:8080/';
+      // zumeroFactory.server = 'http://190.145.39.139:8080/';
+      zumeroFactory.server = 'http://190.145.39.138:8080/';
       zumeroFactory.packageName = 'com.ajustev.sula.v2';
       setDbPath();
     }
@@ -45,7 +46,9 @@
       console.time('zync' + i);
       var def =$q.defer()
 
-      zumero.sync(zumeroFactory.dbpath, '', zumeroFactory.server, zumeroFactory.dbfile, '{ "scheme_type": "table", "table": "users" }', 'sebastian', 'Siva.2014*', onZyncComplete
+      // zumero.sync(zumeroFactory.dbpath, '', zumeroFactory.server, zumeroFactory.dbfile, '{ "scheme_type": "table", "table": "users" }', 'sebastian', 'Siva.2014*', onZyncComplete
+      zumero.sync(zumeroFactory.dbpath, '', zumeroFactory.server, zumeroFactory.dbfile, '{ "scheme_type": "table", "table": "users" }', 'suramed', 'Sura.2014*', onZyncComplete
+      
                   , onZyncError);
 
             function onZyncComplete() {

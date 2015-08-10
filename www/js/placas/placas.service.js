@@ -56,7 +56,7 @@
 		function insertPlaca (placa) {
 			//store.get('consulta').cPlacas;
 			var query=consultaService.consultas.cInsertPlaca;
-			var binding=[new Date().toISOString(), placa, momentService.getDateTime()];
+			var binding=[new Date().toISOString(), placa, momentService.getDateTime(), store.get('authorizationData').userName];
 			return Sqlite.execute(query, binding)
                 .then(insertPlacaComplete)
                 .catch(exception.catcher('ingreso de  placa ha fallado'));

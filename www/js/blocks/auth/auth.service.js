@@ -75,6 +75,7 @@
           store.remove('pushToken')
           store.remove('dataInit')      
           store.remove('consulta')
+          pushService.isFirst=true;
         }
       store.remove('authorizationData');
 

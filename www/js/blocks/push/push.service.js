@@ -4,8 +4,8 @@
 	.module('blocks.push')    
 
 	.factory('pushService', pushService)
-	pushService.$inject=['exception', 'logger','Sqlite', '$rootScope'  , 'store' , '$ionicPush', '$state', '$cordovaDialogs' ,'promise' , '$timeout' ,'zumeroService'];
-	function pushService ( exception, logger  ,Sqlite ,  $rootScope    ,  store    ,$ionicPush , $state  ,  $cordovaDialogs  , promise  ,  $timeout  , zumeroService) {
+	pushService.$inject=['exception', 'logger','Sqlite', '$rootScope'  , 'store' , '$ionicPush', '$state', '$cordovaDialogs' ,'promise' , '$timeout' ,'zumeroService'  , 'dataInitService'];
+	function pushService ( exception, logger  ,Sqlite ,  $rootScope    ,  store    ,$ionicPush , $state  ,  $cordovaDialogs  , promise  ,  $timeout  , zumeroService   ,  dataInitService) {
 		
 		
 		var pushFactory= {
@@ -29,7 +29,7 @@
 			logger.log('---------insert token');						
 			// var query='INSERT INTO [pushtokens] ([email] ,[token] ,[platform]) VALUES (?,?,?)';
 			var query = store.get('consulta').cInsertPushToken;
-			var binding=[store.get('authorizationData').userName,data.token, data.platform];
+			var binding=[store.get('authorizationData').userName,data.token, data.platform , dataInitService.uuid];
 			  console.log(query, binding, '-----------------------')
 			  return Sqlite.execute(query, binding)
                 .then(insertPushTokenComplete)

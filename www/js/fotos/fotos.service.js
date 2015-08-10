@@ -244,7 +244,7 @@
     function setSistemas(idinspeccion, sistemasDictamen) {
 			// var sync=0;
 			var query=store.get('consulta').cInsertSistemas;//consultaService.consultas.cPlacas;
-			var binding=[idinspeccion ,sistemasDictamen.idsistemasdictamen, momentService.getDateTime()];
+			var binding=[idinspeccion ,sistemasDictamen.idsistemasdictamen, momentService.getDateTime(), store.get('authorizationData').userName];
 			return Sqlite.execute(query, binding)
                 .then(insertSistemasComplete)
                 .catch(exception.catcher('insertar  sistema sqlite ha fallado'));
@@ -272,7 +272,7 @@
 
     	function setMatricula(idinspeccion,matriculaDictamen) {
 		 	var query=store.get('consulta').cInsertMatricula;//consultaService.consultas.cPlacas;
-				var binding=[idinspeccion ,matriculaDictamen.idmatriculadictamen, momentService.getDateTime()];
+				var binding=[idinspeccion ,matriculaDictamen.idmatriculadictamen, momentService.getDateTime(), store.get('authorizationData').userName];
 				return Sqlite.execute(query, binding)
 	                .then(insertMatriculaComplete)
 	                .catch(exception.catcher('insertar  matricula sqlite ha fallado'));

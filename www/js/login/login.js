@@ -14,8 +14,10 @@
         var vm = this;
 
         vm.loginData = {
-          userName: 'jj@jj.com',
-          password: 'Siva.2014*',
+          // userName: 'jj@jj.com',
+          // password: 'Siva',
+          userName: '',
+          password: '',
           useRefreshTokens: false
         };
         vm.login=login;    
