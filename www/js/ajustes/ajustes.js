@@ -57,7 +57,7 @@
 
       // Check Ionic Deploy for new code
        function checkForUpdates() {
-        clogger.success('Ionic Deploy: Checking for updates');
+        logger.success('Ionic Deploy: Checking for updates');
         $ionicDeploy.check().then(function(hasUpdate) {
           logger.success('Ionic Deploy: Update available: ' + hasUpdate);
           vm.hasUpdate = hasUpdate;

@@ -21,7 +21,7 @@
 
         */
          'ionic.service.core',
-         'ionic.service.push','ionic', 'ionic.ion.headerShrink',
+         'ionic.service.push','ionic', 'ionic.ion.headerShrink', 'ionic.service.deploy',
          'ngCordova'
 
     ]);
