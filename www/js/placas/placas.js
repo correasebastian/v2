@@ -26,6 +26,7 @@ var pl=null;
         vm.data = {placa: null, sl: null};        
         vm.insertPLaca=insertPLaca;
         vm.placaPopup=placaPopup;
+        vm.refresh=refresh;
         vm.role=dataInitService.data;
         vm.title = 'Placas';
 
@@ -58,6 +59,11 @@ var pl=null;
                 logger.info('Activated Placas View', res);
                 return res;
               }
+          }
+
+
+          function refresh () {
+            preActivate ();
           }
 
 

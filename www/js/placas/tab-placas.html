@@ -1,4 +1,11 @@
 <ion-view view-title="{{PCtrl.title}}">
+<div class="float-button fbCamera" ng-hide="FCtrl.fotosFalt.length<1">
+  <span class="height-fix">   
+    <a on-touch="PCtrl.refresh()"  class="button content button-icon ">    
+      <i class="ion-refresh my-icon"> </i>
+    </a>
+  </span>
+</div>
 <div class="float-button fbAdd"   >
 <!-- ng-show="PCtrl.role.idrolsura==1" -->
     <span class="height-fix">
