@@ -91,17 +91,20 @@ var pl=null;
 
           function insertPLaca (placa) {
             logger.info('Ingresando nueva placa');
-              placaService.insertPlaca(placa).then(function() {
-                  cleanData();
-                  getPlacas()
-                 /* .then(zyncAfterInsertPlaca)
+              placaService.insertPlaca(placa)
+              .then(onInsertPlaca)
+              .then(zyncafterinsert)
 
-                  function zyncAfterInsertPlaca () {
-                      zumeroService.zync('getPlacasComplete').then(function (){
-                          sendPush.send();
-                      })
-                  }*/
-              });
+              function onInsertPlaca(res) {
+                  cleanData();
+                  return getPlacas();               
+              }
+
+              function zyncafterinsert (res) {
+                 zumeroService.zync(1)
+              }
+
+              
           }
 
           function identifyUser() {
