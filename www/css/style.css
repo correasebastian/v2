@@ -16,7 +16,8 @@ ion-content {
   -webkit-border-radius: 50%;
   -moz-border-radius: 50%;
   border-radius: 50%;
-  width: 30px;
+  width: 20px;
+  height: 20px;
   padding: 30px;
   font-size: 40px;
   /*background: $warning;*/
@@ -27,7 +28,7 @@ ion-content {
 }
 .fbCamera{
   bottom: 130px;
-  background:  rgb(72, 239, 53);
+  background: blue;  /*rgb(72, 239, 53);*/
 }
 .fbVideoCompress{
   bottom: 80px;
@@ -35,7 +36,7 @@ ion-content {
 }
 .fbAdd{
   bottom: 55px;
-  background:  yellow;
+  background:  blue;
 }
 
 .float-button .height_fix {
@@ -104,6 +105,9 @@ SPINNER*/
   height: 28px;
   stroke: #999;
   fill: #FFD438;
+}
+.white{
+      color: white;
 }
 
 

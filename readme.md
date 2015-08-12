@@ -44,3 +44,11 @@ Content-Type: application/json
 Cache-Control: no-cache
 
 { "tokens":[ "APA91bHeSALts9tTeTA9v0po-VNYLIlo8CQDhvDuIzLkc36E7VX5FcnOg8AF8w1WuJF2wLQ9BqBviluDA_pd69kP0MPPLEQrSrXwBCl5fIyNzbkLJRgQCkKgitxVfojiMkHFLvhuC_MA" ], "notification":{ "alert":"mtricula del ABC", "android":{ "collapseKey":"foo", "delayWhileIdle":true, "timeToLive":600, "payload":{"message": "matricula disponible","title":"ABC","key1":"value", "key2":"value", "$state":"tab.chat-detail" , "$stateParams": "{\"idinspeccion\": \"2015-07-21T17:24:45.910Z\", \"placa\":\"BBB888\"}"} } } }
+
+
+
+---------------------------------------------------------------
+---------------------------------------------------------------
+PUBLISHING
+
+1 cordova build --release android
