@@ -1,50 +1,47 @@
 <ion-view view-title="{{PCtrl.title}}">
-<!-- <div class="float-button fbCamera" ng-hide="FCtrl.fotosFalt.length<1">
+    <!-- <div class="float-button fbCamera" ng-hide="FCtrl.fotosFalt.length<1">
   <span class="height-fix">   
     <a on-touch="PCtrl.refresh()"  class="button content button-icon ">    
       <i class="ion-refresh my-icon"> </i>
     </a>
   </span>
 </div> -->
-  <div class="float-button fbAdd"   >
-<!-- ng-show="PCtrl.role.idrolsura==1" -->
-    <span class="height-fix">
+    <div class="float-button fbAdd">
+        <!-- ng-show="PCtrl.role.idrolsura==1" -->
+        <span class="height-fix">
       <a on-touch="PCtrl.placaPopup()"  class="button content button-icon ">
       <!-- ui-sref="add-trip" -->
         <i class="ion-plus-round my-icon white"> </i>
       </a>
     </span>
-  </div>
-
- <ion-nav-buttons side="secondary ">
-      <button class="button  button-icon ion-refresh" style="color: blue;" on-touch="PCtrl.refresh()">
-        
-      </button>
+    </div>
+    <ion-nav-buttons side="secondary ">
+        <button class="button  button-icon ion-refresh" style="color: blue;" on-touch="PCtrl.refresh()">
+        </button>
     </ion-nav-buttons>
-  
-  <ion-content >
-<!-- <span>{{PCtrl}}</span> -->
-
-
-<div style="height: 70px"> </div>
-<!-- {{PCtrl.role}}
+    <ion-content>
+        <!-- <span>{{PCtrl}}</span> -->
+        <div style="height: 70px"> </div>
+        <!-- {{PCtrl.role}}
 <span>{{PCtrl.role}}</span> -->
-<ion-list >
-<!-- | orderBy : '-idinspeccion' -->
-  <ion-item class="item-icon-left item-icon-right" ng-repeat="placa in PCtrl.placas "    href="#/tab/chats/{{placa.idinspeccion}}/{{placa.placa}}">
-      <i class="icon icon-accessory" ng-class="{'ion-checkmark-round':placa.idinspeccionsistemas }" style=" color: green;"></i>  
-       <i class="icon icon-accessory pl30 myblue" ng-class="{'ion-checkmark-round':placa.idinspeccionmatricula }" style=" color: blue;"></i>
-       <h2 class="pl20">{{placa.placa}}</h2>
-      <i class="icon ion-chevron-right icon-accessory"></i>
-  </ion-item>
-</ion-list>
-<!-- <span>{{PCtrl.role}}</span> -->
-<!-- <button class="button button-block button-dark" ng-click="PCtrl.identifyUser()">
+        <ion-refresher pulling-text="actualizando..." on-refresh="PCtrl.refresh()">
+        </ion-refresher>
+        <ion-list>
+            <!-- | orderBy : '-idinspeccion' -->
+            <ion-item class="item-icon-left item-icon-right" ng-repeat="placa in PCtrl.placas " href="#/tab/chats/{{placa.idinspeccion}}/{{placa.placa}}">
+                <i class="icon icon-accessory" ng-class="{'ion-checkmark-round':placa.idinspeccionsistemas }" style=" color: green;"></i>
+                <i class="icon icon-accessory pl30 myblue" ng-class="{'ion-checkmark-round':placa.idinspeccionmatricula }" style=" color: blue;"></i>
+                <h2 class="pl20">{{placa.placa}}</h2>
+                <i class="icon ion-chevron-right icon-accessory"></i>
+            </ion-item>
+        </ion-list>
+        <!-- <span>{{PCtrl.role}}</span> -->
+        <!-- <button class="button button-block button-dark" ng-click="PCtrl.identifyUser()">
   Identify a user
 </button>
 
 <button class="button button-block button-dark" ng-click="PCtrl.insertPLaca()">
   InsertPlaca
 </button> -->
-</ion-content>
+    </ion-content>
 </ion-view>

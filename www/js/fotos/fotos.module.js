@@ -1,4 +1,4 @@
 (function() {
-    'use strict';
-    angular.module('app.fotos', []);
+	'use strict';
+	angular.module('app.fotos', []);
 })();

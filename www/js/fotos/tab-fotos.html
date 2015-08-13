@@ -1,49 +1,46 @@
 <ion-view view-title="{{FCtrl.placa}}">
-<div class="float-button fbCamera" ng-hide="FCtrl.fotosFalt.length<1">
-  <span class="height-fix">   
+    <div class="float-button fbCamera" ng-hide="FCtrl.fotosFalt.length<1">
+        <span class="height-fix">   
     <a on-touch="FCtrl.openModal()"  class="button content button-icon ">    
       <i class="ion-camera my-icon white"> </i>
     </a>
   </span>
-</div>
-<div class="float-button fbAdd">
-    <span class="height-fix">
+    </div>
+    <div class="float-button fbAdd">
+        <span class="height-fix">
       <a on-touch="FCtrl.uploadFotos()"  class="button content button-icon ">      
         <i class="ion-android-upload my-icon white"> </i>
       </a>
     </span>
-  </div>
- <ion-nav-buttons side="secondary">
-      <button  ng-show="FCtrl.role.idrolsura==1"class="button button-icon icon ion-drag" ng-click="FCtrl.openPopover($event)">
-        
-      </button>
+    </div>
+    <ion-nav-buttons side="secondary">
+        <button ng-show="FCtrl.role.idrolsura==1" class="button button-icon icon ion-drag" ng-click="FCtrl.openPopover($event)">
+        </button>
     </ion-nav-buttons>
     <!--header-shrink scroll-event-interval="5" -->
-  <ion-content  >
-  <div style="height: 20px"></div>
-<!--   <div style="height: 60px"></div> -->
-<!-- <span>{{FCtrl}}</span> -->
-<div class="list card" ng-repeat="foto in FCtrl.fotos | orderBy : '-idfoto'" class="pt50">
-
-  <!-- <div class="item item-avatar">
+    <ion-content>
+        <div style="height: 20px"></div>
+        <ion-refresher pulling-text="actualizando..." on-refresh="FCtrl.refresh()">
+        </ion-refresher>
+        <!--   <div style="height: 60px"></div> -->
+        <!-- <span>{{FCtrl}}</span> -->
+        <div class="list card" ng-repeat="foto in FCtrl.fotos | orderBy : '-idfoto'" class="pt50">
+            <!-- <div class="item item-avatar">
     <img ng-src="{{foto.path}}">
     <h2>Pretty Hate Machine</h2>
     <p>Nine Inch Nails</p>
   </div> -->
-
-  <div class="item item-image">
-    <img ng-src="{{foto.path}}">
-  </div>
-
-  <a ng-show="foto.sync==0" class="item item-icon-left assertive" href="#">
-    <i class="icon ion-thumbsdown icon-accessory " style=" color: red;"></i>
-    <!-- Start listening -->
-  </a>
-  <a ng-show="foto.sync==1" class="item item-icon-left assertive" href="#">
-    <i class="icon ion-thumbsup icon-accessory " style=" color: green;"></i>
-    <!-- Start listening -->
-  </a>
-
-</div>
-</ion-content>
+            <div class="item item-image">
+                <img ng-src="{{foto.path}}">
+            </div>
+            <a ng-show="foto.sync==0" class="item item-icon-left assertive" href="#">
+                <i class="icon ion-thumbsdown icon-accessory " style=" color: red;"></i>
+                <!-- Start listening -->
+            </a>
+            <a ng-show="foto.sync==1" class="item item-icon-left assertive" href="#">
+                <i class="icon ion-thumbsup icon-accessory " style=" color: green;"></i>
+                <!-- Start listening -->
+            </a>
+        </div>
+    </ion-content>
 </ion-view>
