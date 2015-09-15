@@ -31,7 +31,10 @@
     <p>Nine Inch Nails</p>
   </div> -->
             <div class="item item-image">
-                <img ng-src="{{foto.path}}">
+                <!-- <ion-scroll direction="x"> -->
+                    <img ng-src="{{foto.path}}" on-tap="FCtrl.zoom($index)">
+                    <!-- on-tap="FCtrl.full(foto.path)" -->
+                <!-- </ion-scroll> -->
             </div>
             <a ng-show="foto.sync==0" class="item item-icon-left assertive" href="#">
                 <i class="icon ion-thumbsdown icon-accessory " style=" color: red;"></i>

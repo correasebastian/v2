@@ -42,7 +42,7 @@
 
 		function takePic() {
 			var options = {
-				quality: 35,
+				quality: 65,
 				//50,
 				destinationType: Camera.DestinationType.FILE_URI,
 				sourceType: Camera.PictureSourceType.CAMERA,

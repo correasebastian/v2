@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<widget id="com.ajustev.sula.v2" version="0.0.2" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="com.ajustev.sula.v2" version="0.0.3" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
   <name>ajustevmed</name>
   <description>
-        An Ionic Framework and Cordova project.
+        ajustev para suramed.
     </description>
-  <author email="hi@ionicframework" href="http://ionicframework.com/">
-      Ionic Framework Team
+  <author email="sebastian.correa@ajustev.com" href="http://www.ajustevsiva.com/web">
+      sebastian correa
     </author>
   <content src="index.html"/>
   <access origin="*"/>

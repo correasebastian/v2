@@ -5,9 +5,9 @@
           .module('app.fotos')
           .controller('Fotos', Fotos);
 
-      Fotos.$inject = ['$q', 'fotoService', 'logger', '$ionicPopover', '$ionicPopup', '$scope', '$stateParams', 'promise', 'copyService', 'transferService', 'filterService', 'widgetsService', '$ionicModal', 'sendPush', 'dataInitService', 'momentService', '$timeout'];
+      Fotos.$inject = ['$q', 'fotoService', 'logger', '$ionicPopover', '$ionicPopup', '$scope', '$stateParams', 'promise', 'copyService', 'transferService', 'filterService', 'widgetsService', '$ionicModal', 'sendPush', 'dataInitService', 'momentService', '$timeout', '$ionicSlideBoxDelegate', '$ionicScrollDelegate'];
 
-      function Fotos($q, fotoService, logger, $ionicPopover, $ionicPopup, $scope, $stateParams, promise, copyService, transferService, filterService, widgetsService, $ionicModal, sendPush, dataInitService, momentService, $timeout) {
+      function Fotos($q, fotoService, logger, $ionicPopover, $ionicPopup, $scope, $stateParams, promise, copyService, transferService, filterService, widgetsService, $ionicModal, sendPush, dataInitService, momentService, $timeout, $ionicSlideBoxDelegate, $ionicScrollDelegate) {
           // console.log(zumeroService, 'zumero service on fotos')
           /*jshint validthis: true */
           var vm = this;
@@ -36,18 +36,27 @@
 
           vm.closePopover = closePopover;
           vm.closeModal = closeModal;
+          vm.closeModalFull = closeModalFull;
+          vm.closeModalZoom = closeModalZoom;
           vm.fotosFalt = [];
+          vm.full = full;
           vm.matriculaPopup = matriculaPopup;
           vm.names = [];
           vm.openPopover = openPopover;
           vm.openModal = openModal;
+          vm.openModalFull = openModalFull;
+          vm.openModalZoom = openModalZoom;
           vm.refresh = refresh;
           vm.setIdTipoFoto = setIdTipoFoto;
           vm.setSistemas = setSistemas;
           vm.sistemasPopup = sistemasPopup;
           vm.takePic = takePic;
           vm.title = 'Fotos';
+          vm.viewFullPath = null;
+          vm.updateSlideStatus=updateSlideStatus;
           vm.uploadFotos = uploadFotos;
+          vm.zoomMin = 1;
+          vm.zoom=zoom;
           vm.zync = zync;
 
 
@@ -74,7 +83,9 @@
                   getFotos(),
                   getNames(),
                   setPopOver(),
-                  setModal()
+                  setModal(),
+                  setModalFull(),
+                  setModalZoom()
 
               ];
               //            Using a resolver on all routes or Fotoservice.ready in every controller
@@ -151,7 +162,7 @@
           }
 
 
-          function setModal(argument) {
+          function setModal() {
               return $ionicModal.fromTemplateUrl('js/fotos/fotoModal.html', {
                   scope: $scope,
                   animation: 'slide-in-up'
@@ -163,12 +174,76 @@
               }
           }
 
+          function setModalFull() {
+              return $ionicModal.fromTemplateUrl('js/fotos/image-modal.html', {
+                  scope: $scope,
+                  animation: 'slide-in-up'
+              }).then(completeModal);
+
+              function completeModal(modal) {
+                  vm.modalFull = modal;
+                  return vm.modalFull;
+              }
+          }
+
+          function setModalZoom() {
+              return $ionicModal.fromTemplateUrl('js/fotos/zoom-modal.html', {
+                  scope: $scope,
+                  animation: 'slide-in-up'
+              }).then(completeModal);
+
+              function completeModal(modal) {
+                  vm.modalZoom = modal;
+                  return vm.modalZoom;
+              }
+          }
+
+          function full(path) {
+              vm.viewFullPath = path;
+              openModalFull()
+
+          }
+
+          function zoom(index) {
+
+              vm.activeSlide = index;
+
+              openModalZoom()
+
+          }
+
           function openModal() {
               vm.modal.show();
           }
 
           function closeModal() {
               vm.modal.hide()
+          }
+
+
+          function updateSlideStatus(slide) {
+              var zoomFactor = $ionicScrollDelegate.$getByHandle('scrollHandle' + slide).getScrollPosition().zoom;
+              if (zoomFactor == vm.zoomMin) {
+                  $ionicSlideBoxDelegate.enableSlide(true);
+              } else {
+                  $ionicSlideBoxDelegate.enableSlide(false);
+              }
+          };
+
+          function openModalFull() {
+              vm.modalFull.show();
+          }
+
+          function closeModalFull() {
+              vm.modalFull.hide()
+          }
+
+          function openModalZoom() {
+              vm.modalZoom.show();
+          }
+
+          function closeModalZoom() {
+              vm.modalZoom.hide()
           }
 
           function setPopOver() {
@@ -531,7 +606,12 @@
               }
 
               function onZyncComplete(res) {
+
+                if(vm.role.idrolsura == 2){
                   return sendPush.send(vm.idinspeccion, vm.placa)
+                }else{
+                  return $q.when();
+                }
               }
 
               // function onSendPushComplete (argument) {

@@ -56,10 +56,6 @@ CAMBiar la version en el config.xml
 
 
 C:\Users\sebastianc\Documents\ionic\suralocal\v2\platforms\android\ant-build>
-jarsigner -verbose
- -sigalg SHA1withRSA -digestalg SHA1 -keystore S:\key\puno.keystore  CordovaApp-release-unsigne
-d.apk puno
+jarsigner -verbose  -sigalg SHA1withRSA -digestalg SHA1 -keystore S:\key\puno.keystore  CordovaApp-release-unsigned.apk puno
 
-C:\Users\sebastianc\Documents\ionic\suralocal\v2\platforms\android\ant-build>
-zipalign -v 4 Cord
-ovaApp-release-unsigned.apk ajustevmed.apk
+C:\Users\sebastianc\Documents\ionic\suralocal\v2\platforms\android\ant-build>zipalign -v 4 CordovaApp-release-unsigned.apk ajustevmed.apk
