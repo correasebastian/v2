@@ -606,8 +606,10 @@
               }
 
               function onZyncComplete(res) {
+                // quitando las notificaciones
+                //565 no sgca nada , solo hay 1 y 2 pero se quieren quitar ambas
 
-                if(vm.role.idrolsura == 2){
+                if(vm.role.idrolsura == 565){
                   return sendPush.send(vm.idinspeccion, vm.placa)
                 }else{
                   return $q.when();

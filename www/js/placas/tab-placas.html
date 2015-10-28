@@ -15,8 +15,19 @@
       </a>
     </span>
     </div>
-    <ion-nav-buttons side="secondary ">
-        <button class="button  button-icon ion-refresh" style="color: blue;" on-touch="PCtrl.refresh()">
+    <ion-nav-buttons side="right">
+        <button ng-click="PCtrl.setFocus()" ng-hide="PCtrl.hasFocus" class="button button-positive button-clear button-icon icon ion-search animated">
+        </button>
+        <span ng-show="PCtrl.hasFocus" class="animated">
+            <label class="item-input-wrapper animated">
+              <i class="icon ion-search placeholder-icon"></i>
+              <input id="searchPrimary" ng-blur="PCtrl.noFocus()" type="search" placeholder="Search" ng-model="PCtrl.obj.filter">
+            </label>
+            <button ng-click="PCtrl.noFocus()" class="button button-clear animated">
+              Cancel
+            </button>
+          </span>
+        <button class="button  button-icon ion-refresh" ng-hide="PCtrl.hasFocus" style="color: blue;" on-touch="PCtrl.refresh()">
         </button>
     </ion-nav-buttons>
     <ion-content>
@@ -28,7 +39,7 @@
         </ion-refresher>
         <ion-list>
             <!-- | orderBy : '-idinspeccion' -->
-            <ion-item class="item-icon-left item-icon-right" ng-repeat="placa in PCtrl.placas " href="#/tab/chats/{{placa.idinspeccion}}/{{placa.placa}}">
+            <ion-item class="item-icon-left item-icon-right" ng-repeat="placa in PCtrl.placas  | filter:{placa:PCtrl.obj.filter}  " href="#/tab/chats/{{placa.idinspeccion}}/{{placa.placa}}">
                 <i class="icon icon-accessory" ng-class="{'ion-checkmark-round':placa.idinspeccionsistemas }" style=" color: green;"></i>
                 <i class="icon icon-accessory pl30 myblue" ng-class="{'ion-checkmark-round':placa.idinspeccionmatricula }" style=" color: blue;"></i>
                 <h2 class="pl20">{{placa.placa}}</h2>

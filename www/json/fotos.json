@@ -1,0 +1,29 @@
+{
+    "fotos": [{
+        "idfoto": 104736,
+        "idinspeccion": 7471,
+        "path": "file:\/\/\/data\/data\/com.ajustev.b\/files\/1445879354974.jpg",
+        "sync": 1,
+        "uuid": "testuuid",
+        "deleted": 0,
+        "fecha": "2015-10-26T12:09:15",
+        "idtipo": 639,
+        "placa": "PFT967",
+        "idajustev": 1199364,
+        "onUpload": 0,
+        "rutaSrv": "2015\/octubre\/26\/PFT967\/1445879354974.jpg"
+    }, {
+        "idfoto": 104767,
+        "idinspeccion": 7471,
+        "path": "file:\/\/\/data\/data\/com.ajustev.b\/files\/1445879520166.jpg",
+        "sync": 1,
+        "uuid": "testuuid",
+        "deleted": 0,
+        "fecha": "2015-10-26T12:12:00",
+        "idtipo": 639,
+        "placa": "PFT967",
+        "idajustev": 1199364,
+        "onUpload": 0,
+        "rutaSrv": "2015\/octubre\/26\/PFT967\/1445879520166.jpg"
+    }]
+}
